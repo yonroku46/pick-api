@@ -27,15 +27,15 @@ public class ResponseService {
     }
 
     void setSuccessResponse(CommonResponse response) {
-        response.setConde(0);
+        response.setCode(0);
         response.setSuccess(true);
         response.setMessage("SUCCESS");
     }
 
-    public CommonResponse getErrorResponse(int code, String message) {
+    public CommonResponse getErrorResponse(String message, int code) {
         CommonResponse response = new CommonResponse();
         response.setSuccess(false);
-        response.setConde(code);
+        response.setCode(code);
         response.setMessage(message);
         return response;
     }

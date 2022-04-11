@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 public class CommonResponse {
     boolean success;
-    int conde;
+    int code;
     String message;
 }
