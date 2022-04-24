@@ -40,8 +40,8 @@ public class User extends ResponseData {
     @Column(name = "access_time")
     private Timestamp accessTime;
 
-    @Column(name = "permission")
-    private Integer permission;
+    @Column(name = "role")
+    private Integer role;
 
     @Column(name = "pin")
     private Integer pin;
