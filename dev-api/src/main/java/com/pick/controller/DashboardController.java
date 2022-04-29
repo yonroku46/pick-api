@@ -1,10 +1,7 @@
 package com.pick.controller;
 
 import com.pick.dto.base.ResponseData;
-import com.pick.dto.request.BookingListReqDto;
-import com.pick.dto.request.DashboardInfoReqDto;
-import com.pick.dto.request.DashboardRequestListReqDto;
-import com.pick.dto.request.FavoriteListReqDto;
+import com.pick.dto.request.*;
 import com.pick.entity.base.ListResponse;
 import com.pick.entity.base.SingleResponse;
 import com.pick.service.BookingService;
@@ -13,9 +10,7 @@ import com.pick.service.ShopService;
 import com.pick.service.UserService;
 import com.pick.service.base.ResponseService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,6 +36,14 @@ public class DashboardController {
     @GetMapping("/requestList")
     public ListResponse<ResponseData> dashboardRequestList(DashboardRequestListReqDto req) {
         return responseService.getListResponse(userService.dashboardRequestList(req));
+    }
+
+    /**
+     * 해당 매장의 스태프 리퀘스트 승인/거절
+     */
+    @PostMapping("/requestConfirm")
+    public SingleResponse<ResponseData> dashboardRequestConfirm(@RequestBody DashboardRequestConfirmReqDto req) {
+        return responseService.getSingleResponse(userService.dashboardRequestConfirm(req));
     }
 
 }

@@ -1,6 +1,7 @@
 package com.pick.service.impl;
 
 import com.pick.dto.base.ResponseData;
+import com.pick.dto.request.DashboardRequestConfirmReqDto;
 import com.pick.dto.request.DashboardRequestListReqDto;
 import com.pick.dto.request.SubmitEmploymentReqDto;
 import com.pick.dto.request.UserInfoUpdateReqDto;
@@ -12,6 +13,7 @@ import com.pick.exception.ErrorCode;
 import com.pick.exception.ServiceException;
 import com.pick.model.ShopStaff;
 import com.pick.repository.ShopRepository;
+import com.pick.repository.ShopRequestRepository;
 import com.pick.repository.UserRepository;
 import com.pick.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +30,12 @@ public class UserServiceImpl implements UserService {
 
     private Integer STAFF_ROLE = 2;
     private Integer MANAGER_ROLE = 3;
+    private Integer REQUEST_ACCEPT = 1;
+    private Integer REQUEST_REFUSE = 2;
 
     private final UserRepository userRepository;
     private final ShopRepository shopRepository;
+    private final ShopRequestRepository shopRequestRepository;
 
     @Override
     public List<ResponseData> dashboardRequestList(DashboardRequestListReqDto req) {
@@ -80,6 +85,29 @@ public class UserServiceImpl implements UserService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public ResponseData dashboardRequestConfirm(DashboardRequestConfirmReqDto req) {
+        Integer userCd = req.getUserCd();
+        Integer shopCd = req.getShopCd();
+        Integer requestCd = req.getRequestCd();
+        Integer requestStat = req.getRequestStat();
+        BooleanResDto response = new BooleanResDto();
+        if (requestStat == REQUEST_ACCEPT) {
+            // 매장 및 유저 정보 업데이트
+            userRepository.updateEmployment(userCd);
+            shopRepository.addStaff(userCd, shopCd);
+            response.setResult(true);
+        } else if (requestStat == REQUEST_REFUSE) {
+            // 유저정보에서 리퀘스트정보 삭제
+            userRepository.deleteEmployment(userCd);
+            response.setResult(true);
+        } else {
+            return null;
+        }
+        shopRequestRepository.updateStat(requestCd, requestStat);
+        return response;
     }
 
     @Override

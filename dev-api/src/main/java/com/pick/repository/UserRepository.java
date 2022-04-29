@@ -64,6 +64,24 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             , nativeQuery = true)
     int submitEmployment(@Param("user_cd") Integer userCd, @Param("shop_cd") Integer shopCd);
 
+    @Modifying
+    @Transactional
+    @Query(value =
+            "UPDATE public.m_user" +
+            " SET additional = JSON_MERGE(additional, JSON_OBJECT('info','','career',''))" +
+            " WHERE user_cd = :user_cd"
+            , nativeQuery = true)
+    int updateEmployment(@Param("user_cd") Integer userCd);
+
+    @Modifying
+    @Transactional
+    @Query(value =
+            "UPDATE public.m_user" +
+            " SET additional = JSON_REMOVE(additional, '$.employment')" +
+            " WHERE user_cd = :user_cd"
+            , nativeQuery = true)
+    int deleteEmployment(@Param("user_cd") Integer userCd);
+
     @Query(value =
             "SELECT * FROM public.m_user"
     , nativeQuery = true)

@@ -1,6 +1,7 @@
 package com.pick.controller;
 
 import com.pick.dto.base.ResponseData;
+import com.pick.dto.request.BookingCheckReqDto;
 import com.pick.dto.request.LoginReqDto;
 import com.pick.dto.request.MyFavoritesReqDto;
 import com.pick.dto.response.LoginResDto;
@@ -37,6 +38,14 @@ public class PublicController {
     @GetMapping("/myFavorites")
     public ListResponse<ResponseData> myFavorites(MyFavoritesReqDto req) {
         return responseService.getListResponse(publicService.myFavorites(req));
+    }
+
+    /**
+     * 해당 유저의 예약시간 중복체크
+     */
+    @GetMapping("/bookingCheck")
+    public SingleResponse<ResponseData> bookingCheck(BookingCheckReqDto req) {
+        return responseService.getSingleResponse(publicService.bookingCheck(req));
     }
 
 }

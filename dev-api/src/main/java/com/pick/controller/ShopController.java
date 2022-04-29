@@ -1,13 +1,11 @@
 package com.pick.controller;
 
 import com.pick.dto.base.ResponseData;
-import com.pick.dto.request.FavoriteReqDto;
-import com.pick.dto.request.MyFavoritesReqDto;
-import com.pick.dto.request.ShopInfoReqDto;
-import com.pick.dto.request.ShopListReqDto;
+import com.pick.dto.request.*;
 import com.pick.entity.Shop;
 import com.pick.entity.base.ListResponse;
 import com.pick.entity.base.SingleResponse;
+import com.pick.service.BookingService;
 import com.pick.service.ShopService;
 import com.pick.service.base.ResponseService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +19,7 @@ import java.util.List;
 public class ShopController {
 
     private final ShopService shopService;
+    private final BookingService bookingService;
     private final ResponseService responseService;
 
     /**
@@ -45,6 +44,14 @@ public class ShopController {
     @PostMapping("/favorite")
     public SingleResponse<ResponseData> favorite(@RequestBody FavoriteReqDto req) {
         return responseService.getSingleResponse(shopService.favorite(req));
+    }
+
+    /**
+     * 해당 매장 예약처리
+     */
+    @PostMapping("/booking")
+    public SingleResponse<ResponseData> booking(@RequestBody BookingReqDto req) {
+        return responseService.getSingleResponse(bookingService.booking(req));
     }
 
 }

@@ -9,10 +9,7 @@ import com.pick.service.ContactService;
 import com.pick.service.UserService;
 import com.pick.service.base.ResponseService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +20,7 @@ public class ContactController {
     private final ResponseService responseService;
 
     @PostMapping("/save")
-    public SingleResponse<Boolean> contact(ContactReqDto req) {
+    public SingleResponse<Boolean> contact(@RequestBody ContactReqDto req) {
         return responseService.getSingleResponse(contactService.contact(req));
     }
 

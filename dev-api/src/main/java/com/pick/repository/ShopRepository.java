@@ -75,4 +75,13 @@ public interface ShopRepository extends JpaRepository<Shop, Integer> {
             , nativeQuery = true)
     int submitEmployment(@Param("user_cd") Integer userCd, @Param("shop_cd") Integer shopCd);
 
+    @Modifying
+    @Transactional
+    @Query(value =
+            "UPDATE public.m_shop" +
+            " SET staff_list = CONCAT(staff_list,',',:user_cd)" +
+            " WHERE shop_cd = :shop_cd"
+            , nativeQuery = true)
+    int addStaff(@Param("user_cd") Integer userCd, @Param("shop_cd") Integer shopCd);
+
 }
