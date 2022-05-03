@@ -1,10 +1,7 @@
 package com.pick.service.impl;
 
 import com.pick.dto.base.ResponseData;
-import com.pick.dto.request.DashboardInfoReqDto;
-import com.pick.dto.request.FavoriteReqDto;
-import com.pick.dto.request.ShopInfoReqDto;
-import com.pick.dto.request.ShopListReqDto;
+import com.pick.dto.request.*;
 import com.pick.dto.response.BooleanResDto;
 import com.pick.dto.response.DashboardInfoResDto;
 import com.pick.dto.response.ShopInfoResDto;
@@ -92,6 +89,18 @@ public class ShopServiceImpl implements ShopService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public List<ResponseData> search(ShopSearchReqDto req) {
+        String category = req.getCategory();
+        String value = req.getValue();
+        List<Tuple> tuples = shopRepository.search(convertCategory(category), value);
+        List<ResponseData> response = new ArrayList<>();
+        for (Tuple tuple : tuples) {
+            response.add(new ShopListResDto(tuple));
+        }
+        return response;
     }
 
 

@@ -54,4 +54,12 @@ public class ShopController {
         return responseService.getSingleResponse(bookingService.booking(req));
     }
 
+    /**
+     * 매장 검색
+     */
+    @GetMapping("/search")
+    public ListResponse<ResponseData> search(ShopSearchReqDto req) {
+        return responseService.getListResponse(shopService.search(req));
+    }
+
 }

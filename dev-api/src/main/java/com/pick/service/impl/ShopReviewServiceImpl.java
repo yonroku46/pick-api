@@ -5,6 +5,7 @@ import com.pick.dto.request.ReviewDeleteReqDto;
 import com.pick.dto.request.ReviewListReqDto;
 import com.pick.dto.request.ReviewPostReqDto;
 import com.pick.dto.response.BooleanResDto;
+import com.pick.dto.response.ReviewListResDto;
 import com.pick.repository.ShopReviewRepository;
 import com.pick.service.ShopReviewService;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +31,8 @@ public class ShopReviewServiceImpl implements ShopReviewService {
 
         // 일반・삭제댓글처리
         for (Tuple tuple : tuples) {
-            com.pick.dto.response.ReviewListResDto review = new com.pick.dto.response.ReviewListResDto(tuple);
-            if (review.getDeleteFlag() == DELETE_FLG && review.getReviewReply() != null) {
+            ReviewListResDto review = new ReviewListResDto(tuple);
+            if (review.getDeleteFlag() == DELETE_FLG) {
                 review.setUserCd(null);
                 review.setUserName(null);
                 review.setUserImg(null);
@@ -43,13 +44,13 @@ public class ShopReviewServiceImpl implements ShopReviewService {
 
         // 대댓글 리스트 처리
         Iterator<ResponseData> r = response.iterator();
-        Map<Integer, List<com.pick.dto.response.ReviewListResDto>> replyMap = new HashMap<>();
+        Map<Integer, List<ReviewListResDto>> replyMap = new HashMap<>();
 
         while (r.hasNext()) {
-            com.pick.dto.response.ReviewListResDto review = (com.pick.dto.response.ReviewListResDto) r.next();
+            ReviewListResDto review = (ReviewListResDto) r.next();
             Integer target = review.getReviewReply();
             if (target != null) {
-                List<com.pick.dto.response.ReviewListResDto> list = replyMap.get(target);
+                List<ReviewListResDto> list = replyMap.get(target);
                 if (replyMap.get(target) == null) {
                     list = new ArrayList<>();
                 }
@@ -61,7 +62,7 @@ public class ShopReviewServiceImpl implements ShopReviewService {
 
         replyMap.forEach((k, v) -> {
             for (ResponseData data: response) {
-                com.pick.dto.response.ReviewListResDto review = (com.pick.dto.response.ReviewListResDto) data;
+                ReviewListResDto review = (ReviewListResDto) data;
                 if (review.getReviewCd() == k && review.getDeleteFlag() != DELETE_FLG) {
                     review.setReplyList(v);
                 }

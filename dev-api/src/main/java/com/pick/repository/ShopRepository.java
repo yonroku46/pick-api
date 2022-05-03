@@ -21,6 +21,18 @@ public interface ShopRepository extends JpaRepository<Shop, Integer> {
     List<Tuple> shopList(@Param("category") String category);
 
     @Query(value =
+            "SELECT shop_cd,shop_name,shop_location,shop_info,shop_tel,shop_img,ratings_ave" +
+            " FROM (" +
+            "  SELECT * FROM public.m_shop WHERE shop_name LIKE %:value% UNION" +
+            "  SELECT * FROM public.m_shop WHERE shop_location LIKE %:value% UNION" +
+            "  SELECT * FROM public.m_shop WHERE shop_info LIKE %:value%" +
+            " ) sub1" +
+            " WHERE sub1.delete_flag = 0" +
+            " AND sub1.shop_serial LIKE :category%"
+            , nativeQuery = true)
+    List<Tuple> search(@Param("category") String category, @Param("value") String value);
+
+    @Query(value =
             "SELECT" +
             "  shop_cd,shop_name,shop_location,shop_info,shop_tel,shop_img,shop_open,shop_close,shop_holiday,staff_list,menu_list,ratings_ave,shop_serial,location_lat,location_lng," +
             "  (SELECT COUNT(*) FROM m_shop_review WHERE shop_cd = :shop_cd AND delete_flag = 0 AND review_reply IS NULL) AS review_num," +
