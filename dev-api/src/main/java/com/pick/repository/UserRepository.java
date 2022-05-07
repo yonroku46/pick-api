@@ -83,6 +83,47 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     int deleteEmployment(@Param("user_cd") Integer userCd);
 
     @Query(value =
+            "SELECT count(*) AS count" +
+            " FROM public.m_user" +
+            " WHERE user_email = :user_email"
+            , nativeQuery = true)
+    int emailCount(@Param("user_email") String userEmail);
+
+    @Modifying
+    @Transactional
+    @Query(value =
+            "UPDATE public.m_user" +
+            " SET pin = :pin" +
+            " WHERE user_email = :user_email"
+            , nativeQuery = true)
+    int updatePin(@Param("pin") String pin, @Param("user_email") String userEmail);
+
+    @Query(value =
+            "SELECT count(*) AS count" +
+            " FROM public.m_user" +
+            " WHERE user_email = :user_email AND pin = :pin"
+            , nativeQuery = true)
+    int pinCount(@Param("pin") String pin, @Param("user_email") String userEmail);
+
+    @Modifying
+    @Transactional
+    @Query(value =
+            "UPDATE public.m_user" +
+            " SET pin = NULL" +
+            " WHERE user_email = :user_email"
+            , nativeQuery = true)
+    int pinReset(@Param("user_email") String userEmail);
+
+    @Modifying
+    @Transactional
+    @Query(value =
+            "UPDATE public.m_user" +
+            " SET user_pw = :user_pw" +
+            " WHERE user_email = :user_email"
+            , nativeQuery = true)
+    int resetPwd(@Param("user_email") String userEmail, @Param("user_pw") String userPw);
+
+    @Query(value =
             "SELECT * FROM public.m_user"
     , nativeQuery = true)
     List<User> searchAll();

@@ -1,20 +1,13 @@
 package com.pick.controller;
 
 import com.pick.dto.base.ResponseData;
-import com.pick.dto.request.BookingCheckReqDto;
-import com.pick.dto.request.LoginReqDto;
-import com.pick.dto.request.MyFavoritesReqDto;
-import com.pick.dto.response.LoginResDto;
+import com.pick.dto.request.*;
 import com.pick.entity.base.ListResponse;
 import com.pick.entity.base.SingleResponse;
 import com.pick.service.PublicService;
 import com.pick.service.base.ResponseService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.persistence.Tuple;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,8 +20,8 @@ public class PublicController {
     /**
      * 유저 로그인
      */
-    @GetMapping("/login")
-    public SingleResponse<ResponseData> login(LoginReqDto req) {
+    @PostMapping("/login")
+    public SingleResponse<ResponseData> login(@RequestBody LoginReqDto req) {
         return responseService.getSingleResponse(publicService.login(req));
     }
 
@@ -46,6 +39,30 @@ public class PublicController {
     @GetMapping("/bookingCheck")
     public SingleResponse<ResponseData> bookingCheck(BookingCheckReqDto req) {
         return responseService.getSingleResponse(publicService.bookingCheck(req));
+    }
+
+    /**
+     * 메일 중복확인 후 인증메일 발송
+     */
+    @PostMapping("/mailCheck")
+    public SingleResponse<ResponseData> mailCheck(@RequestBody MailCheckReqDto req) {
+        return responseService.getSingleResponse(publicService.mailCheck(req));
+    }
+
+    /**
+     * 핀번호 인증확인
+     */
+    @PostMapping("/certification")
+    public SingleResponse<ResponseData> certification(@RequestBody CertificationReqDto req) {
+        return responseService.getSingleResponse(publicService.certification(req));
+    }
+
+    /**
+     * 비밀번호 재설정
+     */
+    @PostMapping("/resetPwd")
+    public SingleResponse<ResponseData> resetPwd(@RequestBody ResetPwdReqDto req) {
+        return responseService.getSingleResponse(publicService.resetPwd(req));
     }
 
 }

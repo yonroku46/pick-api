@@ -77,6 +77,24 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     int bookingCafe(@Param("user_cd") Integer userCd, @Param("shop_cd") Integer shopCd, @Param("booking_category") String bookingCategory, @Param("booking_time") Timestamp bookingTime, @Param("booking_price") Integer bookingPrice,
                           @Param("customers") Integer customers, @Param("orders") String orders, @Param("discount") Integer discount);
 
+    @Query(value =
+            "SELECT" +
+            "  booking_cd,booking_category,booking_time,booking_price," +
+            "  JSON_UNQUOTE(JSON_EXTRACT(booking_detail,'$.style')) as style," +
+            "  JSON_UNQUOTE(JSON_EXTRACT(booking_detail,'$.designer')) as designer," +
+            "  JSON_UNQUOTE(JSON_EXTRACT(booking_detail,'$.discount')) as discount," +
+            "  JSON_UNQUOTE(JSON_EXTRACT(booking_detail,'$.customers')) as customers," +
+            "  JSON_UNQUOTE(JSON_EXTRACT(booking_detail,'$.orders')) as orders," +
+            "  mb.shop_cd,ms.shop_name" +
+            " FROM" +
+            "  public.m_booking mb INNER JOIN public.m_shop ms ON mb.shop_cd = ms.shop_cd" +
+            " WHERE" +
+            "  mb.booking_stat = 0" +
+            " AND" +
+            "  mb.shop_cd = :shop_cd"
+            , nativeQuery = true)
+    List<Tuple> bookingList2(@Param("shop_cd") Integer shopCd);
+
     @Query(value = "SELECT * FROM public.m_booking", nativeQuery = true)
     List<Booking> searchAll();
 

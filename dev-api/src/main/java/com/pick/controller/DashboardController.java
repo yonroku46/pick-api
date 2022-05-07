@@ -46,4 +46,12 @@ public class DashboardController {
         return responseService.getSingleResponse(userService.dashboardRequestConfirm(req));
     }
 
+    /**
+     * 해당 매장의 스태프 리퀘스트 승인/거절
+     */
+    @GetMapping("/bookingList")
+    public ListResponse<ResponseData> dashboardBookingList(DashboardBookingListReqDto req) {
+        return responseService.getListResponse(bookingService.dashboardBookingList(req));
+    }
+
 }

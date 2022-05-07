@@ -3,6 +3,7 @@ package com.pick.service.impl;
 import com.pick.dto.base.ResponseData;
 import com.pick.dto.request.BookingListReqDto;
 import com.pick.dto.request.BookingReqDto;
+import com.pick.dto.request.DashboardBookingListReqDto;
 import com.pick.dto.response.BookingListResDto;
 import com.pick.dto.response.BooleanResDto;
 import com.pick.entity.Booking;
@@ -14,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Tuple;
-import javax.swing.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +26,8 @@ public class BookingServiceImpl implements BookingService {
     private String HAIRSHOP = "hairshop";
     private String RESTAURANT = "restaurant";
     private String CAFE = "cafe";
+
+    private Integer MANAGER_ROLE = 3;
 
     private final BookingRepository bookingRepository;
 
@@ -72,6 +74,22 @@ public class BookingServiceImpl implements BookingService {
             return null;
         }
         return response;
+    }
+
+    @Override
+    public List<ResponseData> dashboardBookingList(DashboardBookingListReqDto req) {
+        Integer shopCd = req.getShopCd();
+        Integer role = req.getRole();
+        if (role == MANAGER_ROLE) {
+            List<Tuple> tuples = bookingRepository.bookingList2(shopCd);
+            List<ResponseData> response = new ArrayList<>();
+            for (Tuple tuple : tuples) {
+                response.add(new BookingListResDto(tuple));
+            }
+            return response;
+        } else {
+            return null;
+        }
     }
 
     @Override
