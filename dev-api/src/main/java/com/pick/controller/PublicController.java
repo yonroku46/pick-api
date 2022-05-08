@@ -65,4 +65,20 @@ public class PublicController {
         return responseService.getSingleResponse(publicService.resetPwd(req));
     }
 
+    /**
+     * 회원가입용 메일 체크, 등록
+     */
+    @PostMapping("/mailService")
+    public SingleResponse<ResponseData> mailService(@RequestBody MailServiceReqDto req) {
+        return responseService.getSingleResponse(publicService.mailService(req));
+    }
+
+    /**
+     * 유저 회원가입
+     */
+    @PostMapping("/signup")
+    public SingleResponse<ResponseData> signup(@RequestBody SignupReqDto req) {
+        return responseService.getSingleResponse(publicService.signup(req));
+    }
+
 }

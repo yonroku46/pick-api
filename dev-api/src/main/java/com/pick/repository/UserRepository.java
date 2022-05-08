@@ -123,6 +123,35 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             , nativeQuery = true)
     int resetPwd(@Param("user_email") String userEmail, @Param("user_pw") String userPw);
 
+    @Modifying
+    @Transactional
+    @Query(value =
+            "INSERT INTO public.m_user" +
+            "  (user_email,role,pin)" +
+            " VALUES" +
+            "  (:user_email,:role,:pin)"
+            , nativeQuery = true)
+    int signupNormal(@Param("user_email") String userEmail, @Param("role") Integer role, @Param("pin") String pin);
+
+    @Modifying
+    @Transactional
+    @Query(value =
+            "INSERT INTO public.m_user" +
+            "  (user_email,role,pin,additional)" +
+            " VALUES" +
+            "  (:user_email,:role,:pin,'{}')"
+            , nativeQuery = true)
+    int signupStaff(@Param("user_email") String userEmail, @Param("role") Integer role, @Param("pin") String pin);
+
+    @Modifying
+    @Transactional
+    @Query(value =
+            "UPDATE public.m_user" +
+            " SET user_name = :user_name, user_pw = :user_pw" +
+            " WHERE user_email = :user_email"
+            , nativeQuery = true)
+    int signup(@Param("user_email") String userEmail, @Param("user_name") String userName, @Param("user_pw") String userPw);
+
     @Query(value =
             "SELECT * FROM public.m_user"
     , nativeQuery = true)

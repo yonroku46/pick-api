@@ -25,6 +25,8 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class PublicServiceImpl implements PublicService {
 
+    private Integer NORMAL_ROLE = 1;
+
     private final EmailService emailService;
     private final UserRepository userRepository;
     private final BookingRepository bookingRepository;
@@ -114,6 +116,53 @@ public class PublicServiceImpl implements PublicService {
         String userPw = req.getUserPw();
         BooleanResDto response = new BooleanResDto();
         userRepository.resetPwd(userEmail, userPw);
+        response.setResult(true);
+        return response;
+    }
+
+    @Override
+    public ResponseData mailService(MailServiceReqDto req) {
+        String userEmail = req.getUserEmail();
+        Integer role = req.getRole();
+        BooleanResDto response = new BooleanResDto();
+        int cnt = userRepository.emailCount(userEmail);
+        if (cnt == 1) {
+            response.setResult(false);
+        } else {
+            try {
+                Random random = new Random();
+                EmailTO email = new EmailTO();
+
+                String pin = "";
+                for (int i = 0; i < 6; i++) {
+                    pin += (random.nextInt(9) + 1);
+                }
+
+                email.setReceiveMail(userEmail);
+                email.setSubject("[Pick] 회원가입 인증 안내");
+                email.setMessage("회원가입용 인증 메일입니다.\n본인이 아닐 시 즉시 문의 바랍니다.\n\n인증번호 : " + pin + "\n\n직원/사업자 회원은 영업일기준 1일이내, 본 메일로 상세 등록절차를 안내해 드립니다.\n\n(본 이메일은 발신전용이며 회신이 되지 않습니다.)");
+
+                emailService.sendMail(email);
+                if (role == NORMAL_ROLE) {
+                    userRepository.signupNormal(userEmail, role, pin);
+                } else {
+                    userRepository.signupStaff(userEmail, role, pin);
+                }
+                response.setResult(true);
+            } catch (Exception e) {
+                response.setResult(false);
+            }
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseData signup(SignupReqDto req) {
+        String userEmail = req.getUserEmail();
+        String userName = req.getUserName();
+        String userPw = req.getUserPw();
+        BooleanResDto response = new BooleanResDto();
+        userRepository.signup(userEmail, userName, userPw);
         response.setResult(true);
         return response;
     }

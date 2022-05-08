@@ -13,5 +13,7 @@ public interface PublicService {
     public ResponseData mailCheck(MailCheckReqDto req);
     public ResponseData certification(CertificationReqDto req);
     public ResponseData resetPwd(ResetPwdReqDto req);
+    public ResponseData mailService(MailServiceReqDto req);
+    public ResponseData signup(SignupReqDto req);
 
 }
