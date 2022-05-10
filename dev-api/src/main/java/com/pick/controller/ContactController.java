@@ -1,5 +1,6 @@
 package com.pick.controller;
 
+import com.pick.dto.base.ResponseData;
 import com.pick.dto.request.ContactReqDto;
 import com.pick.entity.Contact;
 import com.pick.entity.User;
@@ -20,7 +21,7 @@ public class ContactController {
     private final ResponseService responseService;
 
     @PostMapping("/save")
-    public SingleResponse<Boolean> contact(@RequestBody ContactReqDto req) {
+    public SingleResponse<ResponseData> contact(@RequestBody ContactReqDto req) {
         return responseService.getSingleResponse(contactService.contact(req));
     }
 
