@@ -3,6 +3,7 @@ package com.pick.service.impl;
 import com.pick.dto.base.ResponseData;
 import com.pick.dto.request.*;
 import com.pick.dto.response.BooleanResDto;
+import com.pick.dto.response.ImgUploadResDto;
 import com.pick.dto.response.LoginResDto;
 import com.pick.dto.response.MyFavoritesResDto;
 import com.pick.model.EmailTO;
@@ -13,10 +14,14 @@ import com.pick.service.PublicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Tuple;
+import java.io.File;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -164,6 +169,59 @@ public class PublicServiceImpl implements PublicService {
         BooleanResDto response = new BooleanResDto();
         userRepository.signup(userEmail, userName, userPw);
         response.setResult(true);
+        return response;
+    }
+
+    @Override
+    public ResponseData imgUpload(ImgUploadReqDto req) {
+        MultipartFile file = req.getFile();
+        Integer userCd = req.getUserCd();
+        Integer shopCd = req.getShopCd();
+        Integer menuCd = req.getMenuCd();
+        String call = req.getCall();
+        ImgUploadResDto response = new ImgUploadResDto();
+
+        try {
+            String publicPath = "C:/git/pick-viewer/dev-viewer/public/";
+            String imgPath = "";
+
+            Date now = new Date(System.currentTimeMillis());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+            String datetime = dateFormat.format(now);
+
+            // 파일명 생성
+            if (call.equals("user")) {
+                imgPath = "images/" + call + "/" + userCd + ".png";
+            } else if (call.equals("shop")) {
+                String imgIndex = "0";
+                String fileName = imgIndex + "_" + datetime + ".png";
+                imgPath = "images/" + call + "/" + shopCd + "/tmp/" + fileName;
+            } else if (call.equals("menu")) {
+                String fileName = menuCd + "_" +datetime + ".png";
+                imgPath = "images/" + call + "/" + shopCd + "/tmp/" + fileName;
+            }
+
+            if (!file.isEmpty()) {
+                // jpeg, png, gif 파일인지 체크
+                String contentType = file.getContentType();
+                if (!(contentType.contains("image/jpeg") || contentType.contains("image/jpg") || contentType.contains("image/png"))) {
+                    response.setResult(false);
+                }
+                // 파일 작성
+                File folder = new File(publicPath);
+                if (!folder.exists()) {
+                    folder.mkdirs();
+                }
+                File destination = new File(publicPath + imgPath);
+                file.transferTo(destination);
+
+                userRepository.userImgUpdate(imgPath, userCd);
+                response.setImgPath(imgPath);
+                response.setResult(true);
+            }
+        } catch (Exception e){
+            response.setResult(false);
+        }
         return response;
     }
 

@@ -15,5 +15,6 @@ public interface PublicService {
     public ResponseData resetPwd(ResetPwdReqDto req);
     public ResponseData mailService(MailServiceReqDto req);
     public ResponseData signup(SignupReqDto req);
+    public ResponseData imgUpload(ImgUploadReqDto req);
 
 }
