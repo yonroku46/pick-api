@@ -1,8 +1,8 @@
 package com.pick.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pick.repository.UserRepository;
 import com.pick.security.dto.SecurityLoginReqDto;
-import com.pick.security.repository.SecurityRepository;
 import com.pick.security.token.JsonAuthenticationToken;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -19,7 +19,7 @@ import java.io.IOException;
 
 public class JsonLoginProcessingFilter extends AbstractAuthenticationProcessingFilter {
     private ObjectMapper objectMapper;
-    private SecurityRepository securityRepository;
+    private UserRepository userRepository;
 
     public JsonLoginProcessingFilter(String processingUrl) {
         super(new AntPathRequestMatcher(processingUrl, "POST"));
@@ -54,7 +54,7 @@ public class JsonLoginProcessingFilter extends AbstractAuthenticationProcessingF
         this.objectMapper = mapper;
     }
 
-    public void setSecurityRepository(SecurityRepository securityRepository) {
-        this.securityRepository = securityRepository;
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 }

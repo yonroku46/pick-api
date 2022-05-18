@@ -3,8 +3,8 @@ package com.pick.security.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pick.dto.response.LoginResDto;
 import com.pick.entity.base.SingleResponse;
+import com.pick.repository.UserRepository;
 import com.pick.security.auth.UserDetailsImpl;
-import com.pick.security.repository.SecurityRepository;
 import com.pick.service.base.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -24,7 +24,7 @@ import java.sql.Timestamp;
 public class JsonAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private final ResponseService responseService;
     private final ObjectMapper objectMapper;
-    private final SecurityRepository securityRepository;
+    private final UserRepository userRepository;
 
     @Override
     @ResponseBody
@@ -33,7 +33,7 @@ public class JsonAuthenticationSuccessHandler implements AuthenticationSuccessHa
 
         // 로그인 시간 update
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        securityRepository.updateAccessTime(loginResDto.getUserCd(), timestamp);
+        userRepository.updateAccessTime(loginResDto.getUserCd(), timestamp);
 
         SingleResponse<LoginResDto> singleResponse = responseService.getSingleResponse(loginResDto);
 

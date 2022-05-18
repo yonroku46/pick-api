@@ -1,10 +1,10 @@
 package com.pick.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pick.repository.UserRepository;
 import com.pick.security.handler.JsonAuthenticationFailureHandler;
 import com.pick.security.handler.JsonAuthenticationSuccessHandler;
 import com.pick.security.handler.JsonLogoutSuccessHandler;
-import com.pick.security.repository.SecurityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JsonAuthenticationSuccessHandler jsonAuthenticationSuccessHandler;
     private final JsonAuthenticationFailureHandler jsonAuthenticationFailureHandler;
     private final JsonLogoutSuccessHandler jsonLogoutSuccessHandler;
-    private final SecurityRepository securityRepository;
+    private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
     private final String JSON_LOGIN_PROCESSING_URL = "/api/login";
 
@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addAuthenticationManager(authenticationManager())
                 .loginSuccessHandler(jsonAuthenticationSuccessHandler)
                 .loginFailureHandler(jsonAuthenticationFailureHandler)
-                .securityRepository(securityRepository)
+                .securityRepository(userRepository)
                 .objectMapper(objectMapper);
     }
 

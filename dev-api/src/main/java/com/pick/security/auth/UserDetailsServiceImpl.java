@@ -1,8 +1,8 @@
 package com.pick.security.auth;
 
 import com.pick.entity.User;
+import com.pick.repository.UserRepository;
 import com.pick.security.bean.RoleConverter;
-import com.pick.security.repository.SecurityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,12 +21,12 @@ import java.util.List;
 @Transactional
 @Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private final SecurityRepository securityRepository;
+    private final UserRepository userRepository;
     private final RoleConverter roleConverter;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = securityRepository.findByUserEmail(username);
+        User user = userRepository.findByUserEmail(username);
 
         if (user == null || !user.getDeleteFlag().equals(0)) {
             throw new UsernameNotFoundException("계정 체크 실패");
