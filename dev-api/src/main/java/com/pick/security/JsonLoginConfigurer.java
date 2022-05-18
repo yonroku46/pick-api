@@ -2,6 +2,7 @@ package com.pick.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pick.security.filter.JsonLoginProcessingFilter;
+import com.pick.security.handler.JsonAuthenticationFailureHandler;
 import com.pick.security.handler.JsonAuthenticationSuccessHandler;
 import com.pick.security.repository.SecurityRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,7 @@ public class JsonLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
 
     private AuthenticationManager authenticationManager;
     private JsonAuthenticationSuccessHandler jsonAuthenticationSuccessHandler;
+    private JsonAuthenticationFailureHandler jsonAuthenticationFailureHandler;
     private SecurityRepository securityRepository;
     private ObjectMapper objectMapper;
 
@@ -35,6 +37,7 @@ public class JsonLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
         JsonLoginProcessingFilter jsonFilter = getAuthenticationFilter();
         jsonFilter.setAuthenticationManager(authenticationManager);
         jsonFilter.setAuthenticationSuccessHandler(jsonAuthenticationSuccessHandler);
+        jsonFilter.setAuthenticationFailureHandler(jsonAuthenticationFailureHandler);
         jsonFilter.setSecurityRepository(securityRepository);
         jsonFilter.setObjectMapper(objectMapper);
 
@@ -62,6 +65,11 @@ public class JsonLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
 
     public JsonLoginConfigurer<H> loginSuccessHandler(JsonAuthenticationSuccessHandler jsonAuthenticationSuccessHandler) {
         this.jsonAuthenticationSuccessHandler = jsonAuthenticationSuccessHandler;
+        return this;
+    }
+
+    public JsonLoginConfigurer<H> loginFailureHandler(JsonAuthenticationFailureHandler jsonAuthenticationFailureHandler) {
+        this.jsonAuthenticationFailureHandler = jsonAuthenticationFailureHandler;
         return this;
     }
 

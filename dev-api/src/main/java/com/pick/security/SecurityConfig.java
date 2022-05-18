@@ -1,6 +1,7 @@
 package com.pick.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pick.security.handler.JsonAuthenticationFailureHandler;
 import com.pick.security.handler.JsonAuthenticationSuccessHandler;
 import com.pick.security.handler.JsonLogoutSuccessHandler;
 import com.pick.security.repository.SecurityRepository;
@@ -28,6 +29,7 @@ import java.util.List;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthenticationProvider authenticationProvider;
     private final JsonAuthenticationSuccessHandler jsonAuthenticationSuccessHandler;
+    private final JsonAuthenticationFailureHandler jsonAuthenticationFailureHandler;
     private final JsonLogoutSuccessHandler jsonLogoutSuccessHandler;
     private final SecurityRepository securityRepository;
     private final ObjectMapper objectMapper;
@@ -60,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.apply(new JsonLoginConfigurer<>(JSON_LOGIN_PROCESSING_URL))
                 .addAuthenticationManager(authenticationManager())
                 .loginSuccessHandler(jsonAuthenticationSuccessHandler)
+                .loginFailureHandler(jsonAuthenticationFailureHandler)
                 .securityRepository(securityRepository)
                 .objectMapper(objectMapper);
     }
