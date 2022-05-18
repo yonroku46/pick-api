@@ -152,6 +152,15 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             , nativeQuery = true)
     int signup(@Param("user_email") String userEmail, @Param("user_name") String userName, @Param("user_pw") String userPw);
 
+    @Modifying
+    @Transactional
+    @Query(value =
+            "UPDATE public.m_user" +
+            " SET user_img = :img_path" +
+            " WHERE user_cd = :user_cd"
+            , nativeQuery = true)
+    int userImgUpdate(@Param("img_path") String imgPath, @Param("user_cd") Integer userCd);
+
     @Query(value =
             "SELECT * FROM public.m_user"
     , nativeQuery = true)

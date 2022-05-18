@@ -6,8 +6,8 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ContactReqDto {
-    private String userName;
-    private String userEmail;
+    private String name;
+    private String email;
     private String category;
     private String detail;
 }
