@@ -81,4 +81,12 @@ public class PublicController {
         return responseService.getSingleResponse(publicService.signup(req));
     }
 
+    /**
+     * 유저 프로필사진 업로드/변경경
+    */
+    @PostMapping("/imgUpload")
+    public SingleResponse<ResponseData> imgUpload(@ModelAttribute ImgUploadReqDto req) {
+        return responseService.getSingleResponse(publicService.imgUpload(req));
+    }
+
 }
