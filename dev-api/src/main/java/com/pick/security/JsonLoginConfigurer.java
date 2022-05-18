@@ -1,9 +1,10 @@
 package com.pick.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pick.repository.UserRepository;
 import com.pick.security.filter.JsonLoginProcessingFilter;
+import com.pick.security.handler.JsonAuthenticationFailureHandler;
 import com.pick.security.handler.JsonAuthenticationSuccessHandler;
-import com.pick.security.repository.SecurityRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
 import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
@@ -18,7 +19,8 @@ public class JsonLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
 
     private AuthenticationManager authenticationManager;
     private JsonAuthenticationSuccessHandler jsonAuthenticationSuccessHandler;
-    private SecurityRepository securityRepository;
+    private JsonAuthenticationFailureHandler jsonAuthenticationFailureHandler;
+    private UserRepository userRepository;
     private ObjectMapper objectMapper;
 
     public JsonLoginConfigurer(String processingUrl) {
@@ -35,7 +37,8 @@ public class JsonLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
         JsonLoginProcessingFilter jsonFilter = getAuthenticationFilter();
         jsonFilter.setAuthenticationManager(authenticationManager);
         jsonFilter.setAuthenticationSuccessHandler(jsonAuthenticationSuccessHandler);
-        jsonFilter.setSecurityRepository(securityRepository);
+        jsonFilter.setAuthenticationFailureHandler(jsonAuthenticationFailureHandler);
+        jsonFilter.setUserRepository(userRepository);
         jsonFilter.setObjectMapper(objectMapper);
 
         SessionAuthenticationStrategy sessionStrategy = http.getSharedObject(SessionAuthenticationStrategy.class);
@@ -55,13 +58,18 @@ public class JsonLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
         return new AntPathRequestMatcher("/api/login", "POST");
     }
 
-    public JsonLoginConfigurer<H> securityRepository(SecurityRepository securityRepository) {
-        this.securityRepository = securityRepository;
+    public JsonLoginConfigurer<H> securityRepository(UserRepository securityRepository) {
+        this.userRepository = securityRepository;
         return this;
     }
 
     public JsonLoginConfigurer<H> loginSuccessHandler(JsonAuthenticationSuccessHandler jsonAuthenticationSuccessHandler) {
         this.jsonAuthenticationSuccessHandler = jsonAuthenticationSuccessHandler;
+        return this;
+    }
+
+    public JsonLoginConfigurer<H> loginFailureHandler(JsonAuthenticationFailureHandler jsonAuthenticationFailureHandler) {
+        this.jsonAuthenticationFailureHandler = jsonAuthenticationFailureHandler;
         return this;
     }
 
