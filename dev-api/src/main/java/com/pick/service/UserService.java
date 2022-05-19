@@ -15,6 +15,5 @@ public interface UserService {
     public ResponseData userInfoUpdate(UserInfoUpdateReqDto req);
     public ResponseData submitEmployment(SubmitEmploymentReqDto req);
     public ResponseData dashboardRequestConfirm(DashboardRequestConfirmReqDto req);
-    public List<User> searchAll();
 
 }

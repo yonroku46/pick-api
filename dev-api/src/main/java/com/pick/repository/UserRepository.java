@@ -162,17 +162,15 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             , nativeQuery = true)
     int userImgUpdate(@Param("img_path") String imgPath, @Param("user_cd") Integer userCd);
 
-    @Query(value =
-            "SELECT * FROM public.m_user"
-    , nativeQuery = true)
-    List<User> searchAll();
-
     User findByUserEmail(String userEmail);
 
+    @Modifying
     @Transactional
-    @Modifying(clearAutomatically = true)
-    @Query("update User u set u.accessTime = :accessTime where u.userCd = :userCd")
-    void updateAccessTime(@Param("userCd") Integer userCd,
-                          @Param("accessTime") Timestamp accessTime);
+    @Query(value =
+            "UPDATE public.m_user " +
+            " SET access_time = :access_time " +
+            " WHERE user_cd = :user_cd"
+            , nativeQuery = true)
+    void updateAccessTime(@Param("user_cd") Integer userCd, @Param("access_time") Timestamp accessTime);
 
 }

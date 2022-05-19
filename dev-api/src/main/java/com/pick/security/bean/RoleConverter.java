@@ -10,8 +10,8 @@ import java.util.*;
 public class RoleConverter {
     private final Map<Integer, String> role;
 
+    // 하위 숫자를 포함하는 계층구조.
     public RoleConverter() {
-        // 하위 숫자를 포함하는 계층구조.
         this.role = new HashMap<>();
         role.put(1, "ROLE_NORMAL");
         role.put(2, "ROLE_STAFF");
@@ -19,16 +19,16 @@ public class RoleConverter {
         role.put(9, "ROLE_SYSTEMADMIN");
     }
 
-    public String convertToString(Integer roleInt) {
-        if (this.role.containsKey(roleInt)) {
-            return this.role.get(roleInt);
+    public String convertToString(Integer roleKey) {
+        if (this.role.containsKey(roleKey)) {
+            return this.role.get(roleKey);
         }
         return null;
     }
 
-    public Integer convertToInteger(String roleStr) {
+    public Integer convertToInteger(String roleValue) {
         for (Map.Entry<Integer, String> entry : this.role.entrySet()) {
-            if (entry.getValue().equals(roleStr)) {
+            if (entry.getValue().equals(roleValue)) {
                 return entry.getKey();
             }
         }

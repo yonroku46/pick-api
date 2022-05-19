@@ -19,8 +19,4 @@ public class UserController {
     private final UserService userService;
     private final ResponseService responseService;
 
-    @GetMapping("/all")
-    public ListResponse<User> searchAll() {
-        return responseService.getListResponse(userService.searchAll());
-    }
 }

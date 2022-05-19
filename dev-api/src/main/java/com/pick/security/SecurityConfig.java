@@ -34,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
     private final String JSON_LOGIN_PROCESSING_URL = "/api/login";
+    private final String JSON_LOGOUT_PROCESSING_URL = "/api/logout";
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -45,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll();
 
         http.logout()
-                .logoutUrl("/api/logout")
+                .logoutUrl(JSON_LOGOUT_PROCESSING_URL)
                 .deleteCookies("JSESSIONID")
                 .clearAuthentication(true)
                 .logoutSuccessHandler(jsonLogoutSuccessHandler);
@@ -67,14 +68,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .objectMapper(objectMapper);
     }
 
-    @Override
     // 시큐리티에 provider등록
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider);
     }
 
-    @Override
     // auth매니저 생성
+    @Override
     protected AuthenticationManager authenticationManager() throws Exception {
         List<AuthenticationProvider> authProviderList = new ArrayList<>();
         authProviderList.add(authenticationProvider);

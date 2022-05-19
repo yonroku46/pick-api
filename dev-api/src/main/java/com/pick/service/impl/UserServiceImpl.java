@@ -109,14 +109,4 @@ public class UserServiceImpl implements UserService {
         shopRequestRepository.updateStat(requestCd, requestStat);
         return response;
     }
-
-    @Override
-    public List<User> searchAll() {
-        try {
-            List<User> response = userRepository.searchAll();
-            return response;
-        } catch(Exception exception) {
-            throw new ServiceException(exception.toString(), ErrorCode.INTER_SERVER_ERROR);
-        }
-    }
 }

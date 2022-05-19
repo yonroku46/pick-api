@@ -32,8 +32,8 @@ public class JsonAuthenticationSuccessHandler implements AuthenticationSuccessHa
         LoginResDto loginResDto = ((UserDetailsImpl) authentication.getPrincipal()).getLoginResDto();
 
         // 로그인 시간 update
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        userRepository.updateAccessTime(loginResDto.getUserCd(), timestamp);
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        userRepository.updateAccessTime(loginResDto.getUserCd(), currentTime);
 
         SingleResponse<LoginResDto> singleResponse = responseService.getSingleResponse(loginResDto);
 
