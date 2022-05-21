@@ -1,5 +1,6 @@
 package com.pick.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pick.dto.base.ResponseData;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.sql.Timestamp;
 public class BookingListResDto extends ResponseData {
     private Integer bookingCd;
     private String bookingCategory;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp bookingTime;
     private Integer bookingPrice;
     private String style;

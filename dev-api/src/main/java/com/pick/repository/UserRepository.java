@@ -5,9 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Tuple;
-import javax.transaction.Transactional;
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -161,9 +162,15 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             , nativeQuery = true)
     int userImgUpdate(@Param("img_path") String imgPath, @Param("user_cd") Integer userCd);
 
+    User findByUserEmail(String userEmail);
+
+    @Modifying
+    @Transactional
     @Query(value =
-            "SELECT * FROM public.m_user"
-    , nativeQuery = true)
-    List<User> searchAll();
+            "UPDATE public.m_user " +
+            " SET access_time = :access_time " +
+            " WHERE user_cd = :user_cd"
+            , nativeQuery = true)
+    void updateAccessTime(@Param("user_cd") Integer userCd, @Param("access_time") Timestamp accessTime);
 
 }

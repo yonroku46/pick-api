@@ -24,6 +24,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'javax.mail:mail:1.4.7'
 	implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
 	compileOnly 'org.projectlombok:lombok'
@@ -32,6 +33,7 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	implementation "com.querydsl:querydsl-jpa:5.0.0"
 	annotationProcessor "com.querydsl:querydsl-apt:5.0.0"
+	 implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
 }
 
 def querydslDir = "$buildDir/generated/querydsl"
