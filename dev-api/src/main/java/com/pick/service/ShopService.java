@@ -13,5 +13,6 @@ public interface ShopService {
     public ResponseData favorite(FavoriteReqDto req);
     public ResponseData dashboardInfo(DashboardInfoReqDto req);
     public List<ResponseData> search(ShopSearchReqDto req);
+    public ResponseData saveInfo(DashboardSaveInfoReqDto req);
 
 }

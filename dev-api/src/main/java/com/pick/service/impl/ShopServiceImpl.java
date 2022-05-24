@@ -7,6 +7,8 @@ import com.pick.dto.response.DashboardInfoResDto;
 import com.pick.dto.response.ShopInfoResDto;
 import com.pick.dto.response.ShopListResDto;
 import com.pick.entity.Shop;
+import com.pick.model.ShopImg;
+import com.pick.model.ShopInfo;
 import com.pick.model.ShopMenu;
 import com.pick.model.ShopStaff;
 import com.pick.repository.MenuRepository;
@@ -142,5 +144,38 @@ public class ShopServiceImpl implements ShopService {
             res.add(menu.getMenuCategory());
         }
         return res.stream().distinct().collect(Collectors.toList());
+    }
+
+    @Override
+    public ResponseData saveInfo(DashboardSaveInfoReqDto req) {
+        ShopInfo shop = req.getShop();
+        ShopInfo shopOrigin = req.getShopOrigin();
+        BooleanResDto response = new BooleanResDto();
+        try {
+            if (shop.equals(shopOrigin)) {
+                response.setResult(true);
+            } else {
+                // shopInfo tmp에있는 이미지 파일들 샵폴더로 이동
+                String publicPath = "C:/git/pick-viewer/dev-viewer/public/";
+                String imgPath = "images/";
+                List<ShopImg> shopImgList = shop.getShopImg();
+//                for (ShopImg img : shopImgList) {
+//                    System.out.println(img);
+//                }
+                shopRepository.saveInfo(shop);
+
+                // staffInfo
+                // staffInfo - update
+                // staffInfo - delete
+
+                // menuInfo
+                // menuInfo - update
+                // menuInfo - delete
+                response.setResult(true);
+            }
+        } catch (Exception err) {
+            response.setResult(false);
+        }
+        return response;
     }
 }

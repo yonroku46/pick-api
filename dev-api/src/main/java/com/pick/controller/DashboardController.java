@@ -54,4 +54,12 @@ public class DashboardController {
         return responseService.getListResponse(bookingService.dashboardBookingList(req));
     }
 
+    /**
+     * 해당 매장의 변경사항 저장
+     */
+    @PostMapping("/saveInfo")
+    public SingleResponse<ResponseData> saveInfo(@RequestBody DashboardSaveInfoReqDto req) {
+        return responseService.getSingleResponse(shopService.saveInfo(req));
+    }
+
 }
