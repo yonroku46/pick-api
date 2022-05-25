@@ -12,5 +12,5 @@ import java.util.List;
 @NoArgsConstructor
 public class ShopImg {
     private Integer id;
-    private String img;
+    private String imgPath;
 }

@@ -104,10 +104,10 @@ public interface ShopRepository extends JpaRepository<Shop, Integer> {
             "UPDATE public.m_shop" +
             " SET" +
             "  shop_location = :#{#shop.shopLocation}, shop_info = :#{#shop.shopInfo}, shop_tel = :#{#shop.shopTel}," +
-            "  shop_img = :#{#shop.shopImg}, shop_open = :#{#shop.shopOpen}, shop_close = :#{#shop.shopClose}," +
+            "  shop_img = :shop_img, shop_open = :#{#shop.shopOpen}, shop_close = :#{#shop.shopClose}," +
             "  shop_holiday = :#{#shop.shopHoliday}, location_lat = :#{#shop.locationLat}, location_lng = :#{#shop.locationLng}" +
             " WHERE shop_cd = :#{#shop.shopCd}"
             , nativeQuery = true)
-    int saveInfo(@Param("shop") ShopInfo shop);
+    int saveInfo(@Param("shop") ShopInfo shop, @Param("shop_img") String shopImg);
 
 }

@@ -19,6 +19,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Tuple;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -155,27 +158,54 @@ public class ShopServiceImpl implements ShopService {
             if (shop.equals(shopOrigin)) {
                 response.setResult(true);
             } else {
-                // shopInfo tmp에있는 이미지 파일들 샵폴더로 이동
                 String publicPath = "C:/git/pick-viewer/dev-viewer/public/";
-                String imgPath = "images/";
-                List<ShopImg> shopImgList = shop.getShopImg();
-//                for (ShopImg img : shopImgList) {
-//                    System.out.println(img);
-//                }
-                shopRepository.saveInfo(shop);
+                String imgPath = "";
 
-                // staffInfo
+                // 샵정보 처리
+                List<ShopImg> shopImgList = shop.getShopImg();
+                List<ShopImg> shopOriginImgList = shopOrigin.getShopImg();
+                String shopImg = "";
+                for (ShopImg img : shopImgList) {
+                    if (img.getImgPath().contains("tmp")) {
+                        File file = new File(publicPath + img.getImgPath());
+                        String copyImgPath = "images/shop/" + shop.getShopCd() + "/" + img.getId() + ".png";
+                        File copyFile = new File(publicPath + copyImgPath);
+                        Files.copy(file.toPath(), copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    }
+                    shopImg += "images/shop/" + shop.getShopCd() + "/" + img.getId() + ".png,";
+                }
+                clearTmpPath(publicPath + "images/shop/" + shop.getShopCd() + "/tmp");
+                shopImg = shopImg.substring(0, shopImg.length() - 1);
+
+                // 샵 스태프정보 처리
                 // staffInfo - update
                 // staffInfo - delete
 
-                // menuInfo
+
+                // 샵 메뉴정보 처리
                 // menuInfo - update
                 // menuInfo - delete
+
+                shopRepository.saveInfo(shop, shopImg);
                 response.setResult(true);
             }
         } catch (Exception err) {
             response.setResult(false);
         }
         return response;
+    }
+
+    private void clearTmpPath(String clearPath) {
+        try {
+            File rootDir = new File(clearPath);
+            File[] allFiles = rootDir.listFiles();
+            if (allFiles != null) {
+                for (File file : allFiles) {
+                    file.delete();
+                }
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
