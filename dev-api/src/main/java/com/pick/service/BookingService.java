@@ -14,6 +14,5 @@ public interface BookingService {
     public List<ResponseData> bookingList(BookingListReqDto req);
     public ResponseData booking(BookingReqDto req);
     public List<ResponseData> dashboardBookingList(DashboardBookingListReqDto req);
-    public List<Booking> searchAll();
 
 }

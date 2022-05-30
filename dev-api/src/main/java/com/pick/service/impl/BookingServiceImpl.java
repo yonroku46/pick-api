@@ -81,7 +81,7 @@ public class BookingServiceImpl implements BookingService {
         Integer shopCd = req.getShopCd();
         Integer role = req.getRole();
         if (role == MANAGER_ROLE) {
-            List<Tuple> tuples = bookingRepository.bookingList2(shopCd);
+            List<Tuple> tuples = bookingRepository.dashboardBookingList(shopCd);
             List<ResponseData> response = new ArrayList<>();
             for (Tuple tuple : tuples) {
                 response.add(new BookingListResDto(tuple));
@@ -90,12 +90,6 @@ public class BookingServiceImpl implements BookingService {
         } else {
             return null;
         }
-    }
-
-    @Override
-    public List<Booking> searchAll() {
-        List<Booking> bookingList = bookingRepository.searchAll();
-        return bookingList;
     }
 
     private String convertOrder(List<Order> orders) {

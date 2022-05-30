@@ -16,8 +16,4 @@ public class BookingController {
 
     private final BookingService bookingService;
 
-    @GetMapping("/all")
-    public List<Booking> searchAll() {
-        return bookingService.searchAll();
-    }
 }

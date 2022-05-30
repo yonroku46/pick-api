@@ -21,7 +21,4 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Integer> {
             , nativeQuery = true)
     List<Tuple> favoriteList(@Param("user_cd") String userCd);
 
-    @Query(value = "SELECT * FROM public.m_favorite", nativeQuery = true)
-    List<Favorite> searchAll();
-
 }

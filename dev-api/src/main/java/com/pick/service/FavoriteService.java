@@ -11,6 +11,5 @@ import java.util.List;
 public interface FavoriteService {
 
     public List<ResponseData> favoriteList(FavoriteListReqDto req);
-    public List<Favorite> searchAll();
 
 }

@@ -1,6 +1,7 @@
 package com.pick.repository;
 
 import com.pick.entity.User;
+import com.pick.model.ShopStaff;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -172,5 +173,23 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             " WHERE user_cd = :user_cd"
             , nativeQuery = true)
     void updateAccessTime(@Param("user_cd") Integer userCd, @Param("access_time") Timestamp accessTime);
+
+    @Modifying
+    @Transactional
+    @Query(value =
+            "UPDATE public.m_user" +
+            " SET additional = JSON_REPLACE(additional, '$.info', :#{#staff.info}, '$.career', :#{#staff.career})" +
+            " WHERE user_cd = :#{#staff.userCd}"
+            , nativeQuery = true)
+    int updateStaffInfo(@Param("staff") ShopStaff staff);
+
+    @Modifying
+    @Transactional
+    @Query(value =
+            "UPDATE public.m_user" +
+            " SET additional = JSON_REMOVE(additional, '$.info', '$.career', '$.employment')" +
+            " WHERE user_cd = :#{#staff.userCd}"
+            , nativeQuery = true)
+    int deleteStaffInfo(@Param("staff") ShopStaff staff);
 
 }

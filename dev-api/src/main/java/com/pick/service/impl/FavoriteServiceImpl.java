@@ -37,13 +37,4 @@ public class FavoriteServiceImpl implements FavoriteService {
         return response;
     }
 
-    @Override
-    public List<Favorite> searchAll() {
-        try {
-            List<Favorite> response = favoriteRepository.searchAll();
-            return response;
-        } catch(Exception exception) {
-            throw new ServiceException(exception.toString(), ErrorCode.INTER_SERVER_ERROR);
-        }
-    }
 }

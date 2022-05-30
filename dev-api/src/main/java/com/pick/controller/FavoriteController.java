@@ -17,8 +17,4 @@ public class FavoriteController {
     private final FavoriteService favoriteService;
     private final ResponseService responseService;
 
-    @GetMapping("/all")
-    public ListResponse<Favorite> searchAll() {
-        return responseService.getListResponse(favoriteService.searchAll());
-    }
 }

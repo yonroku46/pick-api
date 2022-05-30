@@ -25,8 +25,4 @@ public class ContactController {
         return responseService.getSingleResponse(contactService.contact(req));
     }
 
-    @GetMapping("/all")
-    public ListResponse<Contact> searchAll() {
-        return responseService.getListResponse(contactService.searchAll());
-    }
 }

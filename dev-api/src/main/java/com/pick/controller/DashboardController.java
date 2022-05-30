@@ -62,4 +62,12 @@ public class DashboardController {
         return responseService.getSingleResponse(shopService.saveInfo(req));
     }
 
+    /**
+     * 대쉬보드 임시폴더 내용 초기화
+     */
+    @PostMapping("/tmpClear")
+    public SingleResponse<ResponseData> tmpClear(@RequestBody DashboardTmpClearReqDto req) {
+        return responseService.getSingleResponse(shopService.tmpClear(req));
+    }
+
 }

@@ -93,9 +93,6 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             " AND" +
             "  mb.shop_cd = :shop_cd"
             , nativeQuery = true)
-    List<Tuple> bookingList2(@Param("shop_cd") Integer shopCd);
-
-    @Query(value = "SELECT * FROM public.m_booking", nativeQuery = true)
-    List<Booking> searchAll();
+    List<Tuple> dashboardBookingList(@Param("shop_cd") Integer shopCd);
 
 }

@@ -21,7 +21,4 @@ public interface ContactRepository extends JpaRepository<Contact, Integer> {
             , nativeQuery = true)
     int save(@Param("name") String name, @Param("email") String email, @Param("category") String category, @Param("detail") String detail);
 
-    @Query(value = "SELECT * FROM public.m_contact", nativeQuery = true)
-    List<Contact> searchAll();
-
 }

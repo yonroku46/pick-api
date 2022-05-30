@@ -16,6 +16,7 @@ public class ShopMenu {
     private String menuDescription;
     private Integer menuPrice;
     private String menuImg;
+    private Boolean newFlag;
 
     public ShopMenu(Tuple tuple) {
         this.menuCd = (Integer) tuple.get(0);

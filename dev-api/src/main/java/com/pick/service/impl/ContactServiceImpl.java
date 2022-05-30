@@ -31,13 +31,4 @@ public class ContactServiceImpl implements ContactService {
         return response;
     }
 
-    @Override
-    public List<Contact> searchAll() {
-        try {
-            List<Contact> response = contactRepository.searchAll();
-            return response;
-        } catch(Exception exception) {
-            throw new ServiceException(exception.toString(), ErrorCode.INTER_SERVER_ERROR);
-        }
-    }
 }

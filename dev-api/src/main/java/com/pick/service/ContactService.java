@@ -10,6 +10,5 @@ import java.util.List;
 public interface ContactService {
 
     public ResponseData contact(ContactReqDto req);
-    public List<Contact> searchAll();
 
 }

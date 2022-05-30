@@ -3,6 +3,7 @@ package com.pick.repository;
 import com.pick.dto.request.DashboardSaveInfoReqDto;
 import com.pick.entity.Shop;
 import com.pick.model.ShopInfo;
+import com.pick.model.ShopStaff;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -105,9 +106,10 @@ public interface ShopRepository extends JpaRepository<Shop, Integer> {
             " SET" +
             "  shop_location = :#{#shop.shopLocation}, shop_info = :#{#shop.shopInfo}, shop_tel = :#{#shop.shopTel}," +
             "  shop_img = :shop_img, shop_open = :#{#shop.shopOpen}, shop_close = :#{#shop.shopClose}," +
-            "  shop_holiday = :#{#shop.shopHoliday}, location_lat = :#{#shop.locationLat}, location_lng = :#{#shop.locationLng}" +
+            "  shop_holiday = :#{#shop.shopHoliday}, location_lat = :#{#shop.locationLat}, location_lng = :#{#shop.locationLng}," +
+            "  staff_list = :staff_list, menu_list = :menu_list" +
             " WHERE shop_cd = :#{#shop.shopCd}"
             , nativeQuery = true)
-    int saveInfo(@Param("shop") ShopInfo shop, @Param("shop_img") String shopImg);
+    int saveInfo(@Param("shop") ShopInfo shop, @Param("shop_img") String shopImg,  @Param("staff_list") String staffSet,  @Param("menu_list") String menuSet);
 
 }
