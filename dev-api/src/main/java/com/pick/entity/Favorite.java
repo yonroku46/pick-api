@@ -3,10 +3,7 @@ package com.pick.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Setter
@@ -16,6 +13,7 @@ public class Favorite {
 
     @Id
     @Column(name = "favorite_cd")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer favoriteCd;
 
     @Column(name = "user_cd")

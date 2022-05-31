@@ -14,6 +14,7 @@ public class UserCoupon {
 
     @Id
     @Column(name = "coupon_cd")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer couponCd;
 
     @Column(name = "user_cd")

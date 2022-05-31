@@ -14,6 +14,7 @@ public class ShopRequest {
 
     @Id
     @Column(name = "request_cd")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer requestCd;
 
     @Column(name = "shop_cd")

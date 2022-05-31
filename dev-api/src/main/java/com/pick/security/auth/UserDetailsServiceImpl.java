@@ -32,10 +32,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("계정 체크 실패");
         }
 
+        // 수직구조의 유저권한 설정
         List<GrantedAuthority> roles = new ArrayList<>();
-        String roleStr = roleConverter.convertToString(user.getRole());
-        roles.add(new SimpleGrantedAuthority(roleStr));
-
+        Integer roleInt = user.getRole();
+        for (int i = 1; i <= roleInt; i++) {
+            if (roleConverter.getKeys().contains(i)) {
+                String roleStr = roleConverter.convertToString(i);
+                roles.add(new SimpleGrantedAuthority(roleStr));
+            }
+        }
         return new UserDetailsImpl(user, roles);
     }
 }

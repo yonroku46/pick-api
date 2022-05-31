@@ -16,7 +16,7 @@ public class LoginResDto extends ResponseData {
     private String userName;
     private String userEmail;
     private String userInfo;
-    private String  userImg;
+    private String userImg;
     private Integer role;
     private String employment;
 

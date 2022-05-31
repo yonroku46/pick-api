@@ -15,6 +15,7 @@ public class Booking {
 
     @Id
     @Column(name = "booking_cd")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer bookingCd;
 
     @Column(name = "user_cd")

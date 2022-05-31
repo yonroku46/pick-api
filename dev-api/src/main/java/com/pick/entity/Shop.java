@@ -13,6 +13,7 @@ public class Shop {
 
     @Id
     @Column(name = "shop_cd")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer shopCd;
 
     @Column(name = "shop_serial")

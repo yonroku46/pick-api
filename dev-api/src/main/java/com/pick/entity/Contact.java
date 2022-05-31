@@ -14,6 +14,7 @@ public class Contact {
 
     @Id
     @Column(name = "contact_cd")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer contactCd;
 
     @Column(name = "name")

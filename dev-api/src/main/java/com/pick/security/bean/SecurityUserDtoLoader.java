@@ -2,15 +2,16 @@ package com.pick.security.bean;
 
 import com.pick.dto.response.LoginResDto;
 import com.pick.security.auth.UserDetailsImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
+@RequiredArgsConstructor
 public class SecurityUserDtoLoader { // 요청자의 정보를 리턴
+    private final RoleConverter roleConverter;
+
     public Integer getUserCd() {
         if (isAnonymous()) {
             return null;
@@ -26,8 +27,11 @@ public class SecurityUserDtoLoader { // 요청자의 정보를 리턴
     }
 
     public String getRoleAsString() {
-        List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        return authorities.get(0).getAuthority();
+        if (isAnonymous()) {
+            return "ANONYMOUS";
+        }
+        Integer roleInt = getLoginResDto().getRole();
+        return roleConverter.convertToString(roleInt);
     }
 
     public Integer getRoleAsInteger() {

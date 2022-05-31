@@ -13,6 +13,7 @@ public class Menu {
 
     @Id
     @Column(name = "menu_cd")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer menuCd;
 
     @Column(name = "shop_cd")

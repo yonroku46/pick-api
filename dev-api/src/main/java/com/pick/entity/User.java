@@ -16,6 +16,7 @@ public class User extends ResponseData {
 
     @Id
     @Column(name = "user_cd")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userCd;
 
     @Column(name = "user_email", unique = true)

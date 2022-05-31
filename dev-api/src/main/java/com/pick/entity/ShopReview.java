@@ -14,6 +14,7 @@ public class ShopReview {
 
     @Id
     @Column(name = "review_cd")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer reviewCd;
 
     @Column(name = "review_reply")
