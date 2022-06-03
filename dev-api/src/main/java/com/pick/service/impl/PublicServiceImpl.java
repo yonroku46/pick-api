@@ -12,6 +12,7 @@ import com.pick.repository.UserRepository;
 import com.pick.service.EmailService;
 import com.pick.service.PublicService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +32,8 @@ import java.util.Random;
 public class PublicServiceImpl implements PublicService {
 
     private Integer NORMAL_ROLE = 1;
+
+    private final PasswordEncoder passwordEncoder;
 
     private final EmailService emailService;
     private final UserRepository userRepository;
@@ -120,7 +123,7 @@ public class PublicServiceImpl implements PublicService {
         String userEmail = req.getUserEmail();
         String userPw = req.getUserPw();
         BooleanResDto response = new BooleanResDto();
-        userRepository.resetPwd(userEmail, userPw);
+        userRepository.resetPwd(userEmail, passwordEncoder.encode(userPw));
         response.setResult(true);
         return response;
     }
@@ -167,7 +170,7 @@ public class PublicServiceImpl implements PublicService {
         String userName = req.getUserName();
         String userPw = req.getUserPw();
         BooleanResDto response = new BooleanResDto();
-        userRepository.signup(userEmail, userName, userPw);
+        userRepository.signup(userEmail, userName, passwordEncoder.encode(userPw));
         response.setResult(true);
         return response;
     }
