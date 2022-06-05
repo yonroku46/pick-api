@@ -12,8 +12,11 @@ spring:
       mail:
         smtp:
           auth: true
+          ssl:
+            protocols: TLSv1.2
           starttls:
             enable: true
+            required: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/public?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul

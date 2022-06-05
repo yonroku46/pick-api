@@ -18,7 +18,7 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender mailSender;
 
     @Override
-    public void sendMail(EmailTO mail) {
+    public Boolean sendMail(EmailTO mail) {
         try {
             MimeMessage msg = mailSender.createMimeMessage();
 
@@ -28,7 +28,7 @@ public class EmailServiceImpl implements EmailService {
             // 받는 사람을 설정 (수신자, 받는사람의 이메일 주소 객체를 생성해서 수신자 이메일주소를 담음)
             msg.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(mail.getReceiveMail()));
 
-            // 보내는 사람(이메일주소+이름) (발신자, 보내는 사람의 이메일 주소와 이름을 담음)
+            // 보내는 사람 (이메일주소+이름) (발신자, 보내는 사람의 이메일 주소와 이름을 담음)
             msg.addFrom(new InternetAddress[] { new InternetAddress(mail.getSenderMail(), mail.getSenderName()) });
 
             // 이메일 제목
@@ -44,8 +44,10 @@ public class EmailServiceImpl implements EmailService {
 //            helper.setText("<html><body><img src='cid:identifier1234'></body></html>", true);
 
             mailSender.send(msg);
+            return Boolean.TRUE;
         } catch (Exception e) {
             e.printStackTrace();
+            return Boolean.FALSE;
         }
     }
 }
