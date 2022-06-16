@@ -112,4 +112,21 @@ public interface ShopRepository extends JpaRepository<Shop, Integer> {
             , nativeQuery = true)
     int saveInfo(@Param("shop") ShopInfo shop, @Param("shop_img") String shopImg,  @Param("staff_list") String staffSet,  @Param("menu_list") String menuSet);
 
+    @Query(value =
+            "SELECT *," +
+            "  (SELECT count(*) FROM public.m_shop_review WHERE shop_cd = sub1.shop_cd AND delete_flag = 0 AND review_reply IS NULL) AS review_num" +
+            " FROM (SELECT shop_cd,shop_serial,shop_name,shop_location,shop_info,shop_tel,shop_img,ratings_ave FROM public.m_shop WHERE delete_flag = 0) sub1" +
+            " LIMIT 10"
+            , nativeQuery = true)
+    List<Tuple> getEventShopList();
+
+    @Query(value =
+            "SELECT *," +
+            "  (SELECT count(*) FROM public.m_shop_review WHERE shop_cd = sub1.shop_cd AND delete_flag = 0 AND review_reply IS NULL) AS review_num" +
+            " FROM (SELECT shop_cd,shop_serial,shop_name,shop_location,shop_info,shop_tel,shop_img,ratings_ave FROM public.m_shop WHERE delete_flag = 0) sub1" +
+            " WHERE sub1.shop_location LIKE :location%" +
+            " LIMIT 10"
+            , nativeQuery = true)
+    List<Tuple> getNearShopList(String location);
+
 }

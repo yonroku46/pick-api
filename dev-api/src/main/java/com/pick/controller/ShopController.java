@@ -62,4 +62,20 @@ public class ShopController {
         return responseService.getListResponse(shopService.search(req));
     }
 
+    /**
+     * 프로모션 진행중인 매장 리스트
+     */
+    @GetMapping("/list/event")
+    public ListResponse<ResponseData> eventShopList() {
+        return responseService.getListResponse(shopService.eventShopList());
+    }
+
+    /**
+     * 주변 추천매장 리스트
+     */
+    @GetMapping("/list/near")
+    public ListResponse<ResponseData> nearShopList() {
+        return responseService.getListResponse(shopService.nearShopList());
+    }
+
 }

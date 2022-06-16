@@ -2,10 +2,7 @@ package com.pick.service.impl;
 
 import com.pick.dto.base.ResponseData;
 import com.pick.dto.request.*;
-import com.pick.dto.response.BooleanResDto;
-import com.pick.dto.response.DashboardInfoResDto;
-import com.pick.dto.response.ShopInfoResDto;
-import com.pick.dto.response.ShopListResDto;
+import com.pick.dto.response.*;
 import com.pick.entity.Shop;
 import com.pick.model.ShopImg;
 import com.pick.model.ShopInfo;
@@ -263,6 +260,29 @@ public class ShopServiceImpl implements ShopService {
             response.setResult(true);
         } else {
             response.setResult(false);
+        }
+        return response;
+    }
+
+    @Override
+    public List<ResponseData> eventShopList() {
+        List<Tuple> tuples = shopRepository.getEventShopList();
+        List<ResponseData> response = new ArrayList<>();
+        for (Tuple tuple : tuples) {
+            response.add(new HomesShopListResDto(tuple));
+        }
+        return response;
+    }
+
+    @Override
+    public List<ResponseData> nearShopList() {
+        // 유저의 위치정보
+        String location = "서울";
+        // 현재 시간+요일에 영업중인 가게만 획득하도록 변경
+        List<Tuple> tuples = shopRepository.getNearShopList(location);
+        List<ResponseData> response = new ArrayList<>();
+        for (Tuple tuple : tuples) {
+            response.add(new HomesShopListResDto(tuple));
         }
         return response;
     }

@@ -2,7 +2,6 @@ package com.pick.service;
 
 import com.pick.dto.base.ResponseData;
 import com.pick.dto.request.*;
-import com.pick.entity.Shop;
 
 import java.util.List;
 
@@ -15,5 +14,6 @@ public interface ShopService {
     public List<ResponseData> search(ShopSearchReqDto req);
     public ResponseData saveInfo(DashboardSaveInfoReqDto req);
     public ResponseData tmpClear(DashboardTmpClearReqDto req);
-
+    public List<ResponseData> eventShopList();
+    public List<ResponseData> nearShopList();
 }
