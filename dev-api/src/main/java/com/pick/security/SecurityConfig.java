@@ -6,8 +6,12 @@ import com.pick.security.handler.JsonAuthenticationFailureHandler;
 import com.pick.security.handler.JsonAuthenticationSuccessHandler;
 import com.pick.security.handler.JsonLogoutSuccessHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.access.AccessDecisionVoter;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
+import org.springframework.security.access.vote.RoleHierarchyVoter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -81,5 +85,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         authProviderList.add(authenticationProvider);
         ProviderManager providerManager = new ProviderManager(authProviderList);
         return providerManager;
+    }
+
+    // 계층 권한 설정
+    @Bean
+    public RoleHierarchyImpl roleHierarchy() {
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        roleHierarchy.setHierarchy(String.format("%s > %s > %s > %s", "ROLE_SYSTEMADMIN", "ROLE_MANAGER", "ROLE_STAFF", "ROLE_NORMAL"));
+        return roleHierarchy;
+    }
+
+    @Bean
+    public AccessDecisionVoter<? extends Object> roleVoter() {
+        return new RoleHierarchyVoter(roleHierarchy());
     }
 }
