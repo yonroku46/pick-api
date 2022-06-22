@@ -7,6 +7,7 @@ import com.pick.entity.base.SingleResponse;
 import com.pick.service.PublicService;
 import com.pick.service.base.ResponseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,6 +29,7 @@ public class PublicController {
     /**
      * 해당 유저의 즐겨찾기 매장코드 리스트
      */
+//    @PreAuthorize("hasRole('NORMAL')")
     @GetMapping("/myFavorites")
     public ListResponse<ResponseData> myFavorites(MyFavoritesReqDto req) {
         return responseService.getListResponse(publicService.myFavorites(req));

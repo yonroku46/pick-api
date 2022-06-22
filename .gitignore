@@ -36,3 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 dev-api/src/main/java/com/pick/test/
+dev-api/src/main/resources/application.yml
+dev-api/src/test/

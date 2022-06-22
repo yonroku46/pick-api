@@ -43,8 +43,7 @@ public class JsonLoginProcessingFilter extends AbstractAuthenticationProcessingF
 
     private boolean isJson(HttpServletRequest request) {
         String requestType = request.getHeader("Content-Type");
-        if (MediaType.APPLICATION_JSON_UTF8_VALUE.equals(requestType) ||
-                MediaType.APPLICATION_JSON_VALUE.equals(requestType)) {
+        if (requestType.contains(MediaType.APPLICATION_JSON_VALUE)) {
             return true;
         }
         return false;

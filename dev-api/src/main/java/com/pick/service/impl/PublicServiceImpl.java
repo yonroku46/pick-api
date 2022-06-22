@@ -12,6 +12,8 @@ import com.pick.repository.UserRepository;
 import com.pick.service.EmailService;
 import com.pick.service.PublicService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,9 +34,15 @@ public class PublicServiceImpl implements PublicService {
 
     private Integer NORMAL_ROLE = 1;
 
+    private final PasswordEncoder passwordEncoder;
+
     private final EmailService emailService;
     private final UserRepository userRepository;
     private final BookingRepository bookingRepository;
+
+//    @Value("{server.public.path}")
+//    private final String publicPath;
+    private final String publicPath = "C:/git/pick-viewer/dev-viewer/public/";
 
     @Override
     public ResponseData login(LoginReqDto req) {
@@ -88,9 +96,12 @@ public class PublicServiceImpl implements PublicService {
                 email.setSubject("[Pick] 본인확인용 인증 안내");
                 email.setMessage("본인확인용 인증 메일입니다.\n본인이 아닐 시 즉시 문의 바랍니다.\n\n인증번호 : " + pin + "\n\n(본 이메일은 발신전용이며 회신이 되지 않습니다.)");
 
-                emailService.sendMail(email);
-                userRepository.updatePin(pin, userEmail);
-                response.setResult(true);
+                if (emailService.sendMail(email)) {
+                    userRepository.updatePin(pin, userEmail);
+                    response.setResult(true);
+                } else {
+                    response.setResult(false);
+                }
             } catch (Exception e) {
                 response.setResult(false);
             }
@@ -120,7 +131,7 @@ public class PublicServiceImpl implements PublicService {
         String userEmail = req.getUserEmail();
         String userPw = req.getUserPw();
         BooleanResDto response = new BooleanResDto();
-        userRepository.resetPwd(userEmail, userPw);
+        userRepository.resetPwd(userEmail, passwordEncoder.encode(userPw));
         response.setResult(true);
         return response;
     }
@@ -167,7 +178,7 @@ public class PublicServiceImpl implements PublicService {
         String userName = req.getUserName();
         String userPw = req.getUserPw();
         BooleanResDto response = new BooleanResDto();
-        userRepository.signup(userEmail, userName, userPw);
+        userRepository.signup(userEmail, userName, passwordEncoder.encode(userPw));
         response.setResult(true);
         return response;
     }
@@ -182,7 +193,6 @@ public class PublicServiceImpl implements PublicService {
         ImgUploadResDto response = new ImgUploadResDto();
 
         try {
-            String publicPath = "C:/git/pick-viewer/dev-viewer/public/";
             String imgPath = "";
 
             Date now = new Date(System.currentTimeMillis());
