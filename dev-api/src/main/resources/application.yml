@@ -1,6 +1,10 @@
 server:
   address: localhost
   port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
 
 spring:
   mail:
@@ -30,7 +34,7 @@ spring:
           use_second_level_cache: false
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
-#    배포시 validate
+    # 배포시 validate
     hibernate.ddl-auto: update
 
 logging.level:

@@ -28,8 +28,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUserEmail(username);
 
-        if (user == null || !user.getDeleteFlag().equals(0)) {
-            throw new UsernameNotFoundException("계정 체크 실패");
+        if (user == null) {
+            throw new UsernameNotFoundException("존재하지 않는 계정입니다.");
+        }
+        if (!user.getDeleteFlag().equals(0)) {
+            throw new UsernameNotFoundException("유효하지 않는 계정입니다.");
         }
 
         // 유저권한 등록

@@ -1,6 +1,6 @@
 package com.pick.chat.repository;
 
-import com.pick.chat.dto.ChatRoomResDto;
+import com.pick.chat.dto.ChatRoomDto;
 import com.pick.chat.entity.ChatContent;
 import com.pick.chat.entity.ChatRoom;
 import com.pick.entity.User;
@@ -27,7 +27,7 @@ public class ChatRepositoryImpl implements ChatRepository {
         this.queryFactory = new JPAQueryFactory(entityManager);
     }
 
-    // 새 채팅방 생성
+    // 채팅방 저장
     public Integer saveChatRoom(ChatRoom chatRoom) {
         entityManager.persist(chatRoom);
         return chatRoom.getCd();
@@ -39,7 +39,7 @@ public class ChatRepositoryImpl implements ChatRepository {
         return chatContent.getCd();
     }
 
-    // 상대와의 채팅방 검색
+    // 채팅방 검색
     public ChatRoom findChatRoomByUserCd(Integer requesterCd, Integer otherSideCd) {
         Integer[] userCds = {requesterCd, otherSideCd};
         return queryFactory.selectFrom(chatRoom)
@@ -58,7 +58,7 @@ public class ChatRepositoryImpl implements ChatRepository {
     }
 
     // 채팅방 목록 검색 (10+1개씩)
-    public List<ChatRoomResDto> findChatRooms(Integer requesterCd, Integer page) {
+    public List<ChatRoomDto> findChatRooms(Integer requesterCd, Integer page) {
         List<ChatRoom> rooms = queryFactory.selectFrom(chatRoom)
                 .where(chatRoom.hostCd.eq(requesterCd)
                                 .or(chatRoom.guestCd.eq(requesterCd)),
@@ -81,26 +81,25 @@ public class ChatRepositoryImpl implements ChatRepository {
                 .where(user.userCd.in(participants))
                 .fetch();
 
-        List<ChatRoomResDto> result = new ArrayList<>();
+        List<ChatRoomDto> result = new ArrayList<>();
 
         for (ChatRoom room : rooms) {
             if (room.getHostCd() == requesterCd) {
                 // 요청자가 호스트
                 for (User user : users) {
                     if (user.getUserCd() == room.getGuestCd()) {
-                        result.add(new ChatRoomResDto(room, user, true));
+                        result.add(new ChatRoomDto(room, user, true));
                     }
                 }
             } else {
                 // 요청자가 게스트
                 for (User user : users) {
                     if (user.getUserCd() == room.getHostCd()) {
-                        result.add(new ChatRoomResDto(room, user, false));
+                        result.add(new ChatRoomDto(room, user, false));
                     }
                 }
             }
         }
-
         return result;
     }
 
