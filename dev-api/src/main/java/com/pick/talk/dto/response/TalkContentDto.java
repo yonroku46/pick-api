@@ -1,6 +1,6 @@
-package com.pick.chat.dto;
+package com.pick.talk.dto.response;
 
-import com.pick.chat.entity.ChatContent;
+import com.pick.talk.entity.TalkContent;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,13 +9,13 @@ import java.text.SimpleDateFormat;
 
 @Setter
 @Getter
-public class ChatContentDto {
+public class TalkContentDto {
     private Boolean me;
     private String message;
     private Timestamp sendTime;
 
     // 내가 보낸 메세지인지 체크
-    public ChatContentDto(ChatContent content, Integer requesterCd) {
+    public TalkContentDto(TalkContent content, Integer requesterCd) {
         if (content.getFromUserCd() == requesterCd) {
             this.me = true;
         } else {

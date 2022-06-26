@@ -1,6 +1,6 @@
-package com.pick.chat.dto;
+package com.pick.talk.dto.response;
 
-import com.pick.chat.entity.ChatRoom;
+import com.pick.talk.entity.TalkRoom;
 import com.pick.dto.base.ResponseData;
 import com.pick.entity.User;
 import lombok.Getter;
@@ -13,34 +13,34 @@ import java.text.SimpleDateFormat;
 @Setter
 @Getter
 @NoArgsConstructor
-public class ChatRoomDto extends ResponseData {
+public class TalkRoomDto extends ResponseData {
     // 상대방 계정 정보
     private Integer userCd;
     private String username;
     private String img;
 
-    // chatRoom 정보
-    private Integer chatRoomCd;
+    // talkRoom 정보
+    private Integer talkRoomCd;
     private String message;
     private Timestamp updateTime;
     private Timestamp updateTimeAsString;
     private Boolean read;
 
-    public ChatRoomDto(ChatRoom chatRoom, User user, boolean isHost) {
+    public TalkRoomDto(TalkRoom talkRoom, User user, boolean isHost) {
         this.userCd = user.getUserCd();
         this.username = user.getUserName();
         this.img = user.getUserImg();
 
 
-        this.chatRoomCd = chatRoom.getCd();
-        this.message = chatRoom.getLatestMessage();
-        this.updateTime = chatRoom.getUpdateTime();
-        this.updateTimeAsString = chatRoom.getUpdateTime();
+        this.talkRoomCd = talkRoom.getCd();
+        this.message = talkRoom.getLatestMessage();
+        this.updateTime = talkRoom.getUpdateTime();
+        this.updateTimeAsString = talkRoom.getUpdateTime();
 
         if (isHost) {
-            this.read = chatRoom.getHostReadFlag();
+            this.read = talkRoom.getHostReadFlag();
         } else {
-            this.read = chatRoom.getGuestReadFlag();
+            this.read = talkRoom.getGuestReadFlag();
         }
     }
 

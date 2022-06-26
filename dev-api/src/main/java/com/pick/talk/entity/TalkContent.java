@@ -1,4 +1,4 @@
-package com.pick.chat.entity;
+package com.pick.talk.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,15 +11,15 @@ import java.sql.Timestamp;
 @Entity
 @Setter
 @Getter
-@Table(name = "m_chat_content")
+@Table(name = "m_talk_content")
 @NoArgsConstructor
-public class ChatContent {
+public class TalkContent {
     @Id
-    @Column(name = "chat_content_cd")
+    @Column(name = "talk_content_cd")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cd;
 
-    private Integer chatRoomCd;
+    private Integer talkRoomCd;
 
     private Integer fromUserCd;
     private Integer toUserCd;
