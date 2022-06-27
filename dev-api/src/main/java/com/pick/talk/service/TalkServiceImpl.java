@@ -1,15 +1,15 @@
 package com.pick.talk.service;
 
+import com.pick.dto.base.ResponseData;
+import com.pick.dto.response.BooleanResDto;
 import com.pick.entity.User;
 import com.pick.repository.UserRepository;
+import com.pick.security.bean.SecurityUserDtoLoader;
 import com.pick.talk.dto.request.*;
-import com.pick.talk.dto.response.TalkContentDto;
-import com.pick.talk.dto.response.TalkRoomDto;
+import com.pick.talk.dto.response.*;
 import com.pick.talk.entity.TalkContent;
 import com.pick.talk.entity.TalkRoom;
 import com.pick.talk.repository.TalkRepository;
-import com.pick.dto.response.BooleanResDto;
-import com.pick.security.bean.SecurityUserDtoLoader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -28,31 +28,33 @@ public class TalkServiceImpl implements TalkService {
 
     // 채팅 시작
     @Override
-    public Integer createTalkRoom(CreateTalkReqDto createTalkReqDto) {
+    public ResponseData createTalkRoom(CreateTalkReqDto createTalkReqDto) {
         Integer toUserCd = createTalkReqDto.getToUserCd();
-        // 상대가 존재하는 유저?
         User user = userRepository.findUserByUserCd(toUserCd);
+        TalkRoomResDto response = new TalkRoomResDto();
+
         if (user == null) {
             throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
         }
-
         Integer requesterCd = securityUserDtoLoader.getUserCd();
-        TalkRoom foundRoom = talkRepository.findTalkRoomByUserCd(requesterCd, toUserCd);
-        // 채팅방 이미 존재할 때 -> 존재하는 채팅방 talkRoomCd 리턴
-        if (foundRoom != null) {
-            return foundRoom.getCd();
+        TalkRoom targetRoom = talkRepository.findTalkRoomByUserCd(requesterCd, toUserCd);
+
+        // 채팅방 이미 존재하면 채팅방 코드 리턴, 존재하지 않으면 생성후 채팅방 코드 리턴
+        if (targetRoom != null) {
+            response.setTalkRoomCd(targetRoom.getCd());
+            return response;
+        } else {
+            TalkRoom newRoom = new TalkRoom();
+            newRoom.setHostCd(requesterCd);
+            newRoom.setGuestCd(toUserCd);
+            response.setTalkRoomCd(talkRepository.saveTalkRoom(newRoom));
+            return response;
         }
-        // 채팅방이 존재하지 않을 때 -> 새로 생성
-        TalkRoom newRoom = new TalkRoom();
-        newRoom.setHostCd(requesterCd);
-        newRoom.setGuestCd(toUserCd);
-        // 새로 생성된 talkRoomCd 리턴
-        return talkRepository.saveTalkRoom(newRoom);
     }
 
     // 채팅방 입장
     @Override
-    public List<TalkContentDto> findMessages(EnterTalkRoomReqDto enterTalkRoomReqDto) throws IllegalAccessException {
+    public ResponseData findMessages(EnterTalkRoomReqDto enterTalkRoomReqDto) throws IllegalAccessException {
         Integer talkRoomCd = enterTalkRoomReqDto.getTalkRoomCd();
         Integer page = enterTalkRoomReqDto.getPage();
         // 본인 확인
@@ -64,15 +66,17 @@ public class TalkServiceImpl implements TalkService {
         // 채팅 내용 (50+1개) 리턴
         Integer requesterCd = securityUserDtoLoader.getUserCd();
         List<TalkContent> talkContents = talkRepository.findTalkContents(talkRoomCd, page - 1);
-        return talkContents.stream()
+        List<TalkContentDto> talkContentDtos = talkContents.stream()
                 .map(e -> new TalkContentDto(e, requesterCd))
                 .collect(Collectors.toList());
+        return new TalkContentsResDto(talkContentDtos);
     }
 
     // 채팅방 목록 검색 (10+1개씩)
     @Override
-    public List<TalkRoomDto> findTalkRoomList(TalkRoomListReqDto talkRoomListReqDto) {
-        return talkRepository.findTalkRoomList(securityUserDtoLoader.getUserCd(), talkRoomListReqDto.getPage() - 1);
+    public ResponseData findTalkRoomList(TalkRoomListReqDto talkRoomListReqDto) {
+        List<TalkRoomDto> talkRoomList = talkRepository.findTalkRoomList(securityUserDtoLoader.getUserCd(), talkRoomListReqDto.getPage() - 1);
+        return new TalkRoomsResDto(talkRoomList);
     }
 
     // 메세지 전송

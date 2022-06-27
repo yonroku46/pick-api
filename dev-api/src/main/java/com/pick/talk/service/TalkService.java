@@ -1,18 +1,15 @@
 package com.pick.talk.service;
 
-import com.pick.talk.dto.request.*;
-import com.pick.talk.dto.response.TalkContentDto;
-import com.pick.talk.dto.response.TalkRoomDto;
+import com.pick.dto.base.ResponseData;
 import com.pick.dto.response.BooleanResDto;
-
-import java.util.List;
+import com.pick.talk.dto.request.*;
 
 public interface TalkService {
-    Integer createTalkRoom(CreateTalkReqDto createTalkReqDto);
+    ResponseData createTalkRoom(CreateTalkReqDto createTalkReqDto);
 
-    List<TalkContentDto> findMessages(EnterTalkRoomReqDto enterTalkRoomReqDto) throws IllegalAccessException;
+    ResponseData findMessages(EnterTalkRoomReqDto enterTalkRoomReqDto) throws IllegalAccessException;
 
-    List<TalkRoomDto> findTalkRoomList(TalkRoomListReqDto talkRoomListReqDto);
+    ResponseData findTalkRoomList(TalkRoomListReqDto talkRoomListReqDto);
 
     BooleanResDto sendMessage(SendMessageReqDto sendMessageReqDto) throws IllegalAccessException;
 
