@@ -296,7 +296,7 @@ public class ShopServiceImpl implements ShopService {
                     file.delete();
                 }
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

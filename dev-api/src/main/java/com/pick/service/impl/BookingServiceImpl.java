@@ -1,15 +1,18 @@
 package com.pick.service.impl;
 
 import com.pick.dto.base.ResponseData;
+import com.pick.dto.request.BookingInfoReqDto;
 import com.pick.dto.request.BookingListReqDto;
 import com.pick.dto.request.BookingReqDto;
 import com.pick.dto.request.DashboardBookingListReqDto;
+import com.pick.dto.response.BookingInfoResDto;
 import com.pick.dto.response.BookingListResDto;
 import com.pick.dto.response.BooleanResDto;
 import com.pick.entity.Booking;
 import com.pick.model.BookingDetail;
 import com.pick.model.Order;
 import com.pick.repository.BookingRepository;
+import com.pick.repository.ShopRepository;
 import com.pick.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +33,7 @@ public class BookingServiceImpl implements BookingService {
     private Integer MANAGER_ROLE = 3;
 
     private final BookingRepository bookingRepository;
+    private final ShopRepository shopRepository;
 
     @Override
     public List<ResponseData> bookingList(BookingListReqDto req) {
@@ -58,16 +62,19 @@ public class BookingServiceImpl implements BookingService {
         String orders = convertOrder(bookingDetail.getOrders());
 
         BooleanResDto response = new BooleanResDto();
+
         if (category.equals(HAIRSHOP)) {
-            bookingRepository.bookingHairshop(userCd, shopCd, category, bookingTime, bookingPrice,
+            bookingRepository.bookingHairshop(userCd, shopCd, designer, category, bookingTime, bookingPrice,
                     designer, style, discount);
             response.setResult(true);
         } else if (category.equals(RESTAURANT)) {
-            bookingRepository.bookingRestaurant(userCd, shopCd, category,bookingTime, bookingPrice,
+            Integer managerCd = shopRepository.getShopManager(shopCd);
+            bookingRepository.bookingRestaurant(userCd, shopCd, managerCd, category,bookingTime, bookingPrice,
                     customers, orders, discount);
             response.setResult(true);
         } else if (category.equals(CAFE)) {
-            bookingRepository.bookingCafe(userCd, shopCd, category, bookingTime, bookingPrice,
+            Integer managerCd = shopRepository.getShopManager(shopCd);
+            bookingRepository.bookingCafe(userCd, shopCd, managerCd, category, bookingTime, bookingPrice,
                     customers, orders, discount);
             response.setResult(true);
         } else {
@@ -90,6 +97,15 @@ public class BookingServiceImpl implements BookingService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public ResponseData bookingInfo(BookingInfoReqDto req) {
+        Integer userCd = req.getUserCd();
+        Integer bookingCd = req.getBookingCd();
+        BookingInfoResDto response = new BookingInfoResDto(bookingRepository.getBookingInfo(userCd, bookingCd));
+
+        return response;
     }
 
     private String convertOrder(List<Order> orders) {

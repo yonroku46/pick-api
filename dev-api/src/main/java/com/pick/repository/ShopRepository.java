@@ -129,4 +129,11 @@ public interface ShopRepository extends JpaRepository<Shop, Integer> {
             , nativeQuery = true)
     List<Tuple> getNearShopList(String location);
 
+    @Query(value =
+            "SELECT shop_manager" +
+            " FROM public.m_shop" +
+            " WHERE shop_cd = :shop_cd"
+            , nativeQuery = true)
+    Integer getShopManager(@Param("shop_cd") Integer shopCd);
+
 }
