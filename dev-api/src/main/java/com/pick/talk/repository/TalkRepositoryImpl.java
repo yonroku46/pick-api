@@ -1,9 +1,11 @@
 package com.pick.talk.repository;
 
+import com.pick.entity.User;
+import com.pick.talk.dto.response.TalkContentDto;
 import com.pick.talk.dto.response.TalkRoomDto;
 import com.pick.talk.entity.TalkContent;
 import com.pick.talk.entity.TalkRoom;
-import com.pick.entity.User;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,9 +14,9 @@ import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.pick.entity.QUser.user;
 import static com.pick.talk.entity.QTalkContent.talkContent;
 import static com.pick.talk.entity.QTalkRoom.talkRoom;
-import static com.pick.entity.QUser.user;
 
 @Repository
 public class TalkRepositoryImpl implements TalkRepository {
@@ -105,13 +107,18 @@ public class TalkRepositoryImpl implements TalkRepository {
 
 
     // 채팅 내용 검색 (50+1개씩)
-    public List<TalkContent> findTalkContents(Integer talkRoomCd, Integer page) {
-        return queryFactory.selectFrom(talkContent)
+    public List<TalkContentDto> findTalkContents(Integer requesterCd, Integer talkRoomCd, Integer page) {
+        List<TalkContentDto> contents = queryFactory.select(Projections.constructor(TalkContentDto.class,
+                        talkContent, user.userName, user.userImg))
+                .from(talkContent)
+                .join(user).on(talkContent.fromUserCd.eq(user.userCd))
                 .where(talkContent.talkRoomCd.eq(talkRoomCd),
                         talkContent.deleteFlag.eq(0))
                 .orderBy(talkContent.createTime.desc())
                 .limit(51)
                 .offset(page)
                 .fetch();
+        contents.forEach(e -> e.meCheck(requesterCd));
+        return contents;
     }
 }

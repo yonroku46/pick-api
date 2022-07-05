@@ -1,5 +1,6 @@
 package com.pick.talk.repository;
 
+import com.pick.talk.dto.response.TalkContentDto;
 import com.pick.talk.dto.response.TalkRoomDto;
 import com.pick.talk.entity.TalkContent;
 import com.pick.talk.entity.TalkRoom;
@@ -17,5 +18,5 @@ public interface TalkRepository {
 
     List<TalkRoomDto> findTalkRoomList(Integer requesterCd, Integer page);
 
-    List<TalkContent> findTalkContents(Integer talkRoomCd, Integer page);
+    List<TalkContentDto> findTalkContents(Integer requesterCd, Integer talkRoomCd, Integer page);
 }

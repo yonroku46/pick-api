@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -65,10 +64,7 @@ public class TalkServiceImpl implements TalkService {
 
         // 채팅 내용 (50+1개) 리턴
         Integer requesterCd = securityUserDtoLoader.getUserCd();
-        List<TalkContent> talkContents = talkRepository.findTalkContents(talkRoomCd, page - 1);
-        List<TalkContentDto> talkContentDtos = talkContents.stream()
-                .map(e -> new TalkContentDto(e, requesterCd))
-                .collect(Collectors.toList());
+        List<TalkContentDto> talkContentDtos = talkRepository.findTalkContents(requesterCd, talkRoomCd, page - 1);
         return new TalkContentsResDto(talkContentDtos);
     }
 
