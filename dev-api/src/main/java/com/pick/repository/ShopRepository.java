@@ -1,9 +1,7 @@
 package com.pick.repository;
 
-import com.pick.dto.request.DashboardSaveInfoReqDto;
 import com.pick.entity.Shop;
 import com.pick.model.ShopInfo;
-import com.pick.model.ShopStaff;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

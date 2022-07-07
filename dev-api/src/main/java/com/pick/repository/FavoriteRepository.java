@@ -1,6 +1,5 @@
 package com.pick.repository;
 
-import com.pick.entity.Contact;
 import com.pick.entity.Favorite;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

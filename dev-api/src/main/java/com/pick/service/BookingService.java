@@ -5,8 +5,6 @@ import com.pick.dto.request.BookingInfoReqDto;
 import com.pick.dto.request.BookingListReqDto;
 import com.pick.dto.request.BookingReqDto;
 import com.pick.dto.request.DashboardBookingListReqDto;
-import com.pick.entity.Booking;
-import com.pick.entity.base.ListResponse;
 
 import java.util.List;
 

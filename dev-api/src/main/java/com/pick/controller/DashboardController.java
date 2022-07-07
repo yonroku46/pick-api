@@ -5,7 +5,6 @@ import com.pick.dto.request.*;
 import com.pick.entity.base.ListResponse;
 import com.pick.entity.base.SingleResponse;
 import com.pick.service.BookingService;
-import com.pick.service.FavoriteService;
 import com.pick.service.ShopService;
 import com.pick.service.UserService;
 import com.pick.service.base.ResponseService;

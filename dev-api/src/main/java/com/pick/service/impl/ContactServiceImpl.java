@@ -3,15 +3,10 @@ package com.pick.service.impl;
 import com.pick.dto.base.ResponseData;
 import com.pick.dto.request.ContactReqDto;
 import com.pick.dto.response.BooleanResDto;
-import com.pick.entity.Contact;
-import com.pick.exception.ErrorCode;
-import com.pick.exception.ServiceException;
 import com.pick.repository.ContactRepository;
 import com.pick.service.ContactService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

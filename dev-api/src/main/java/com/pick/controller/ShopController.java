@@ -2,7 +2,6 @@ package com.pick.controller;
 
 import com.pick.dto.base.ResponseData;
 import com.pick.dto.request.*;
-import com.pick.entity.Shop;
 import com.pick.entity.base.ListResponse;
 import com.pick.entity.base.SingleResponse;
 import com.pick.service.BookingService;
@@ -10,8 +9,6 @@ import com.pick.service.ShopService;
 import com.pick.service.base.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

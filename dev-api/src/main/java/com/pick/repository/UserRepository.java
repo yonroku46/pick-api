@@ -192,4 +192,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             , nativeQuery = true)
     int deleteStaffInfo(@Param("staff") ShopStaff staff);
 
+    @Query(value = "SELECT u FROM User u WHERE u.userCd = :userCd AND u.deleteFlag = 0")
+    User findUserByUserCd(@Param("userCd") Integer userCd);
+
 }

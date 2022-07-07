@@ -7,17 +7,11 @@ import com.pick.dto.request.SubmitEmploymentReqDto;
 import com.pick.dto.request.UserInfoUpdateReqDto;
 import com.pick.dto.response.BooleanResDto;
 import com.pick.dto.response.DashboardRequestListResDto;
-import com.pick.dto.response.ShopListResDto;
-import com.pick.entity.User;
-import com.pick.exception.ErrorCode;
-import com.pick.exception.ServiceException;
-import com.pick.model.ShopStaff;
 import com.pick.repository.ShopRepository;
 import com.pick.repository.ShopRequestRepository;
 import com.pick.repository.UserRepository;
 import com.pick.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Tuple;

@@ -1,17 +1,9 @@
 package com.pick.service.impl;
 
 import com.pick.dto.base.ResponseData;
-import com.pick.dto.request.BookingListReqDto;
 import com.pick.dto.request.FavoriteListReqDto;
-import com.pick.dto.response.BookingListResDto;
 import com.pick.dto.response.FavoriteListResDto;
-import com.pick.entity.Contact;
-import com.pick.entity.Favorite;
-import com.pick.exception.ErrorCode;
-import com.pick.exception.ServiceException;
-import com.pick.repository.ContactRepository;
 import com.pick.repository.FavoriteRepository;
-import com.pick.service.ContactService;
 import com.pick.service.FavoriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -3,7 +3,6 @@ package com.pick.service.impl;
 import com.pick.dto.base.ResponseData;
 import com.pick.dto.request.*;
 import com.pick.dto.response.*;
-import com.pick.entity.Shop;
 import com.pick.model.ShopImg;
 import com.pick.model.ShopInfo;
 import com.pick.model.ShopMenu;
@@ -14,7 +13,6 @@ import com.pick.repository.UserRepository;
 import com.pick.service.ShopService;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.buf.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Tuple;

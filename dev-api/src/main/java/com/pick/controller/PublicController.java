@@ -7,7 +7,6 @@ import com.pick.entity.base.SingleResponse;
 import com.pick.service.PublicService;
 import com.pick.service.base.ResponseService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

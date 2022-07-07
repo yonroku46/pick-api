@@ -5,7 +5,6 @@ import com.pick.dto.request.DashboardRequestConfirmReqDto;
 import com.pick.dto.request.DashboardRequestListReqDto;
 import com.pick.dto.request.SubmitEmploymentReqDto;
 import com.pick.dto.request.UserInfoUpdateReqDto;
-import com.pick.entity.User;
 
 import java.util.List;
 

@@ -8,7 +8,6 @@ import com.pick.dto.request.DashboardBookingListReqDto;
 import com.pick.dto.response.BookingInfoResDto;
 import com.pick.dto.response.BookingListResDto;
 import com.pick.dto.response.BooleanResDto;
-import com.pick.entity.Booking;
 import com.pick.model.BookingDetail;
 import com.pick.model.Order;
 import com.pick.repository.BookingRepository;

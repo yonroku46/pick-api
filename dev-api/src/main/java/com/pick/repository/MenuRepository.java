@@ -1,7 +1,6 @@
 package com.pick.repository;
 
 import com.pick.entity.Menu;
-import com.pick.model.ShopInfo;
 import com.pick.model.ShopMenu;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

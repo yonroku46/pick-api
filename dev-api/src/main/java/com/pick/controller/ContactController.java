@@ -2,12 +2,8 @@ package com.pick.controller;
 
 import com.pick.dto.base.ResponseData;
 import com.pick.dto.request.ContactReqDto;
-import com.pick.entity.Contact;
-import com.pick.entity.User;
-import com.pick.entity.base.ListResponse;
 import com.pick.entity.base.SingleResponse;
 import com.pick.service.ContactService;
-import com.pick.service.UserService;
 import com.pick.service.base.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
