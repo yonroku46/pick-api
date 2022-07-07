@@ -1,6 +1,7 @@
-package com.pick.model;
+package com.pick.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.pick.dto.base.ResponseData;
 import com.pick.entity.TalkContent;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,8 @@ import java.text.SimpleDateFormat;
 @Setter
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TalkContentDto {
+public class TalkContentDto extends ResponseData {
+    private Integer talkContentCd;
     private Boolean me;
 
     private String userName;
@@ -22,6 +24,7 @@ public class TalkContentDto {
 
     // 내가 보낸 메세지인지 체크
     public TalkContentDto(TalkContent content, String userName, String userImg) {
+        this.talkContentCd = content.getTalkContentCd();
         this.content = content;
         this.message = content.getMessage();
         this.sendTime = content.getCreateTime();

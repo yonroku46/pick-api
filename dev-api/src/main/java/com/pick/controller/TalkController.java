@@ -3,9 +3,12 @@ package com.pick.controller;
 import com.pick.dto.base.ResponseData;
 import com.pick.dto.request.*;
 import com.pick.dto.response.BooleanResDto;
+import com.pick.dto.response.TalkContentDto;
+import com.pick.dto.response.TalkRoomDto;
+import com.pick.entity.base.ListResponse;
 import com.pick.entity.base.SingleResponse;
-import com.pick.service.base.ResponseService;
 import com.pick.service.TalkService;
+import com.pick.service.base.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -22,16 +25,16 @@ public class TalkController {
     private final TalkService talkService;
     private final ResponseService responseService;
 
-    // 채팅방 목록 -> TalkRoomResDto 리턴
+    // 채팅방 목록 -> TalkRoomDto 리턴
     @GetMapping("/roomList")
-    public SingleResponse<ResponseData> talkRoomList(@Validated TalkRoomListReqDto req) {
-        return responseService.getSingleResponse(talkService.talkRoomList(req));
+    public ListResponse<TalkRoomDto> talkRoomList(@Validated TalkRoomListReqDto req) {
+        return responseService.getListResponse(talkService.talkRoomList(req));
     }
 
-    // 채팅방 입장 -> 채팅내용 출력 -> TalkContentsResDto 리스트 리턴
+    // 채팅방 입장 -> 채팅내용 출력 -> TalkContentDto 리스트 리턴
     @GetMapping("/enter")
-    public SingleResponse<ResponseData> enterTalkRoom(@Validated EnterTalkRoomReqDto req) throws IllegalAccessException {
-        return responseService.getSingleResponse(talkService.enterTalkRoom(req));
+    public ListResponse<TalkContentDto> enterTalkRoom(@Validated EnterTalkRoomReqDto req) throws IllegalAccessException {
+        return responseService.getListResponse(talkService.enterTalkRoom(req));
     }
 
     // 채팅방 새로 생성 -> talkRoomCd 리턴 (-> redirect하기)
@@ -50,5 +53,11 @@ public class TalkController {
     @GetMapping("/leave")
     public SingleResponse<BooleanResDto> leaveTalkRoom(@Validated LeaveTalkRoomReqDto req) throws IllegalAccessException {
         return responseService.getSingleResponse(talkService.leaveTalkRoom(req));
+    }
+
+    // 새 데이터 갱신
+    @GetMapping("/reload")
+    public ListResponse<TalkContentDto> reloadMessage(@Validated ReloadContentsReqDto req) throws IllegalAccessException {
+        return responseService.getListResponse(talkService.reloadTalkContents(req));
     }
 }

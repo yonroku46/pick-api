@@ -3,8 +3,9 @@ package com.pick.service.impl;
 import com.pick.dto.base.ResponseData;
 import com.pick.dto.request.*;
 import com.pick.dto.response.*;
+import com.pick.entity.TalkContent;
 import com.pick.entity.User;
-import com.pick.model.TalkContentDto;
+import com.pick.dto.response.TalkContentDto;
 import com.pick.repository.UserRepository;
 import com.pick.security.bean.SecurityUserDtoLoader;
 import com.pick.entity.TalkRoom;
@@ -25,27 +26,24 @@ public class TalkServiceImpl implements TalkService {
     private final UserRepository userRepository;
     private final SecurityUserDtoLoader securityUserDtoLoader;
 
-    // 채팅방 목록 검색 (10+1개씩)
+    // 채팅방 목록 검색 (10개)
     @Override
-    public ResponseData talkRoomList(TalkRoomListReqDto req) {
-        List<TalkRoomDto> talkRoomList = talkRepository.findTalkRoomList(securityUserDtoLoader.getUserCd(), req.getPage() - 1);
-        return new TalkRoomsResDto(talkRoomList);
+    public List<TalkRoomDto> talkRoomList(TalkRoomListReqDto req) {
+        return talkRepository.findTalkRoomList(securityUserDtoLoader.getUserCd(), req.getPage() - 1);
     }
 
     // 채팅방 입장
     @Override
-    public ResponseData enterTalkRoom(EnterTalkRoomReqDto req) throws IllegalAccessException {
+    public List<TalkContentDto> enterTalkRoom(EnterTalkRoomReqDto req) throws IllegalAccessException {
         Integer talkRoomCd = req.getTalkRoomCd();
-        Integer page = req.getPage();
         // 본인 확인
         verifyParticipant(talkRoomCd);
         // 메세지 '읽음'으로 변경
         requesterReadMessage(talkRoomCd);
 
-        // 채팅 내용 (50+1개) 리턴
+        // 채팅 내용 50개 리턴
         Integer requesterCd = securityUserDtoLoader.getUserCd();
-        List<TalkContentDto> response = talkRepository.findTalkContents(requesterCd, talkRoomCd, page - 1);
-        return new TalkContentsResDto(response);
+        return talkRepository.findTalkContents(requesterCd, talkRoomCd, req.getPage() - 1);
     }
 
     // 채팅 시작
@@ -83,7 +81,7 @@ public class TalkServiceImpl implements TalkService {
         TalkRoom room = verifyParticipant(talkRoomCd);
         // 메세지 객체 생성
         Integer requesterCd = securityUserDtoLoader.getUserCd();
-        com.pick.entity.TalkContent content = new com.pick.entity.TalkContent();
+        TalkContent content = new TalkContent();
         content.setTalkRoomCd(talkRoomCd);
         content.setMessage(message);
         content.setFromUserCd(requesterCd);
@@ -114,6 +112,20 @@ public class TalkServiceImpl implements TalkService {
         return new BooleanResDto(true);
     }
 
+    // 채팅내용 갱신
+    @Override
+    public List<TalkContentDto> reloadTalkContents(ReloadContentsReqDto req) throws IllegalAccessException {
+        Integer talkRoomCd = req.getTalkRoomCd();
+        // 본인 확인
+        verifyParticipant(talkRoomCd);
+        // 메세지 '읽음'으로 변경
+        requesterReadMessage(talkRoomCd);
+
+        // 새 채팅 내용 가져오기
+        Integer requesterCd = securityUserDtoLoader.getUserCd();
+        return talkRepository.reloadTalkContents(requesterCd, talkRoomCd, req.getLastContentCd());
+    }
+
     // 요청자가 채팅방의 참여자가 맞는지 확인
     private TalkRoom verifyParticipant(Integer talkRoomCd) throws IllegalAccessException {
         Integer requesterCd = securityUserDtoLoader.getUserCd();
@@ -134,6 +146,4 @@ public class TalkServiceImpl implements TalkService {
             room.setGuestReadFlag(true);
         }
     }
-
-
 }

@@ -4,7 +4,7 @@ import com.pick.dto.response.TalkRoomDto;
 import com.pick.entity.TalkContent;
 import com.pick.entity.TalkRoom;
 import com.pick.entity.User;
-import com.pick.model.TalkContentDto;
+import com.pick.dto.response.TalkContentDto;
 import com.pick.repository.TalkRepository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -62,8 +62,8 @@ public class TalkRepositoryImpl implements TalkRepository {
                                 .or(talkRoom.guestCd.eq(requesterCd)),
                         talkRoom.deleteFlag.eq(0))
                 .orderBy(talkRoom.updateTime.desc())
-                .limit(11)
-                .offset(page)
+                .limit(10)
+                .offset(page * 10)
                 .fetch();
 
         List<Integer> participants = new ArrayList<>();
@@ -104,14 +104,29 @@ public class TalkRepositoryImpl implements TalkRepository {
     public List<TalkContentDto> findTalkContents(Integer requesterCd, Integer talkRoomCd, Integer page) {
         List<TalkContentDto> contents = queryFactory
                 .select(Projections.constructor(TalkContentDto.class,
-                talkContent, user.userName, user.userImg))
+                        talkContent, user.userName, user.userImg))
                 .from(talkContent)
                 .join(user).on(talkContent.fromUserCd.eq(user.userCd))
                 .where(talkContent.talkRoomCd.eq(talkRoomCd),
                         talkContent.deleteFlag.eq(0))
                 .orderBy(talkContent.createTime.asc())
-                .limit(51)
-                .offset(page)
+                .limit(50)
+                .offset(page * 50)
+                .fetch();
+        contents.forEach(e -> e.meCheck(requesterCd));
+        return contents;
+    }
+
+    public List<TalkContentDto> reloadTalkContents(Integer requesterCd, Integer talkRoomCd, Integer talkContentCd) {
+        List<TalkContentDto> contents = queryFactory
+                .select(Projections.constructor(TalkContentDto.class,
+                        talkContent, user.userName, user.userImg))
+                .from(talkContent)
+                .join(user).on(talkContent.fromUserCd.eq(user.userCd))
+                .where(talkContent.talkRoomCd.eq(talkRoomCd),
+                        talkContent.deleteFlag.eq(0),
+                        talkContent.talkContentCd.gt(talkContentCd))
+                .orderBy(talkContent.createTime.asc())
                 .fetch();
         contents.forEach(e -> e.meCheck(requesterCd));
         return contents;
