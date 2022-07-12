@@ -3,15 +3,13 @@ package com.pick.dto.response;
 import com.pick.entity.TalkRoom;
 import com.pick.dto.base.ResponseData;
 import com.pick.entity.User;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 public class TalkRoomDto extends ResponseData {
     // 상대방 계정 정보
