@@ -3,12 +3,14 @@ package com.pick.dto.response;
 import com.pick.dto.base.ResponseData;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Tuple;
 import java.sql.Timestamp;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
 @NoArgsConstructor
 public class ShopListResDto extends ResponseData {

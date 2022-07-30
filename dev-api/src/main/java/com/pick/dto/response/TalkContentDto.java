@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pick.dto.base.ResponseData;
 import com.pick.entity.TalkContent;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TalkContentDto extends ResponseData {
     private Integer talkContentCd;

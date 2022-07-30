@@ -4,12 +4,14 @@ import com.pick.entity.TalkRoom;
 import com.pick.dto.base.ResponseData;
 import com.pick.entity.User;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @NoArgsConstructor
 public class TalkRoomDto extends ResponseData {
     // 상대방 계정 정보

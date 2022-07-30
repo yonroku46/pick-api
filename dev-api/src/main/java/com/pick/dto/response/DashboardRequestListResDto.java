@@ -5,6 +5,7 @@ import com.pick.model.ShopMenu;
 import com.pick.model.ShopStaff;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Tuple;
@@ -13,6 +14,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
 @NoArgsConstructor
 public class DashboardRequestListResDto extends ResponseData {
