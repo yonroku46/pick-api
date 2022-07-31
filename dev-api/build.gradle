@@ -55,3 +55,19 @@ configurations {
 tasks.named('test') {
     useJUnitPlatform()
 }
+processResources {
+    duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.INCLUDE
+}
+def profile = !System.properties['spring.profiles.active'] ? 'dev' : System.properties['spring.profiles.active']
+bootRun {
+    String activeProfile = "${profile}"
+    println "active: $activeProfile"
+    systemProperty "spring.profiles.active", activeProfile
+}
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/resources", "src/main/resources-${profile}"
+        }
+    }
+}

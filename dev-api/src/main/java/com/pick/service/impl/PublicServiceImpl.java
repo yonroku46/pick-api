@@ -40,9 +40,10 @@ public class PublicServiceImpl implements PublicService {
     private final UserRepository userRepository;
     private final BookingRepository bookingRepository;
 
-//    @Value("{server.public.path}")
-//    private final String publicPath;
-    private final String publicPath = "C:/git/pick-viewer/dev-viewer/public/";
+    @Value("${property.public.path}")
+    private String publicPath;
+
+//    private final String publicPath = "C:/git/pick-viewer/dev-viewer/public/";
 
     @Override
     public ResponseData login(LoginReqDto req) {

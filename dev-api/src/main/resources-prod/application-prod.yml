@@ -1,0 +1,10 @@
+property:
+  public:
+    path: /home/dev-service/dev-viewer/public
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/public?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: admin
+    password: teamBEP0

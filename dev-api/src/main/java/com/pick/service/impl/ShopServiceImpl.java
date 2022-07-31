@@ -13,6 +13,7 @@ import com.pick.repository.UserRepository;
 import com.pick.service.ShopService;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.buf.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Tuple;
@@ -33,7 +34,10 @@ public class ShopServiceImpl implements ShopService {
     private final UserRepository userRepository;
     private final MenuRepository menuRepository;
 
-    private final String publicPath = "C:/git/pick-viewer/dev-viewer/public/";
+    @Value("${property.public.path}")
+    private String publicPath;
+
+//    private final String publicPath = "C:/git/pick-viewer/dev-viewer/public/";
 //    private final String publicPath = "/home/dev-service/dev-viewer/public";
 
     @Override
