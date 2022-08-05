@@ -25,37 +25,49 @@ public class TalkController {
     private final TalkService talkService;
     private final ResponseService responseService;
 
-    // 채팅방 목록 -> TalkRoomDto 리턴
+    /**
+     * 채팅방 목록
+     */
     @GetMapping("/roomList")
     public ListResponse<TalkRoomDto> talkRoomList(@Validated TalkRoomListReqDto req) {
         return responseService.getListResponse(talkService.talkRoomList(req));
     }
 
-    // 채팅방 입장 -> 채팅내용 출력 -> TalkContentDto 리스트 리턴
+    /**
+     * 채팅방 입장, 채팅내용 출력
+     */
     @GetMapping("/enter")
     public ListResponse<TalkContentDto> enterTalkRoom(@Validated EnterTalkRoomReqDto req) throws IllegalAccessException {
         return responseService.getListResponse(talkService.enterTalkRoom(req));
     }
 
-    // 채팅방 새로 생성 -> talkRoomCd 리턴 (-> redirect하기)
+    /**
+     * 채팅방 신규 생성
+     */
     @GetMapping("/create")
     public SingleResponse<ResponseData> createTalkRoom(@Validated CreateTalkReqDto req) {
         return responseService.getSingleResponse(talkService.createTalkRoom(req));
     }
 
-    // 메세지 보내기 -> Boolean 리턴
+    /**
+     * 메세지 전송
+     */
     @PostMapping("/send")
     public SingleResponse<BooleanResDto> sendMessage(@Validated @RequestBody SendMessageReqDto req) throws IllegalAccessException {
         return responseService.getSingleResponse(talkService.sendMessage(req));
     }
 
-    // 대화방 나가기 -> Boolean 리턴 (-> 대화방 목록 페이지로 redirect)
+    /**
+     * 대화방 나가기
+     */
     @GetMapping("/leave")
     public SingleResponse<BooleanResDto> leaveTalkRoom(@Validated LeaveTalkRoomReqDto req) throws IllegalAccessException {
         return responseService.getSingleResponse(talkService.leaveTalkRoom(req));
     }
 
-    // 새 데이터 갱신
+    /**
+     * 채팅내용 갱신
+     */
     @GetMapping("/reload")
     public ListResponse<TalkContentDto> reloadMessage(@Validated ReloadContentsReqDto req) throws IllegalAccessException {
         return responseService.getListResponse(talkService.reloadTalkContents(req));

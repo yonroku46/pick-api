@@ -8,6 +8,8 @@ import com.pick.dto.request.DashboardBookingListReqDto;
 import com.pick.dto.response.BookingInfoResDto;
 import com.pick.dto.response.BookingListResDto;
 import com.pick.dto.response.BooleanResDto;
+import com.pick.enums.RoleEnum;
+import com.pick.enums.ShopEnum;
 import com.pick.model.BookingDetail;
 import com.pick.model.Order;
 import com.pick.repository.BookingRepository;
@@ -25,11 +27,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
 
-    private String HAIRSHOP = "hairshop";
-    private String RESTAURANT = "restaurant";
-    private String CAFE = "cafe";
+    private String HAIRSHOP = ShopEnum.HAIRSHOP.getType();
+    private String RESTAURANT = ShopEnum.RESTAURANT.getType();
+    private String CAFE = ShopEnum.CAFE.getType();
 
-    private Integer MANAGER_ROLE = 3;
+    private Integer MANAGER_ROLE = RoleEnum.MANAGER_ROLE.getCode();
 
     private final BookingRepository bookingRepository;
     private final ShopRepository shopRepository;

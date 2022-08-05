@@ -16,6 +16,9 @@ public class ContactController {
     private final ContactService contactService;
     private final ResponseService responseService;
 
+    /**
+     * 문의사항 저장
+     */
     @PostMapping("/save")
     public SingleResponse<ResponseData> contact(@RequestBody ContactReqDto req) {
         return responseService.getSingleResponse(contactService.contact(req));

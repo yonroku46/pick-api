@@ -6,6 +6,7 @@ import com.pick.dto.response.BooleanResDto;
 import com.pick.dto.response.ImgUploadResDto;
 import com.pick.dto.response.LoginResDto;
 import com.pick.dto.response.MyFavoritesResDto;
+import com.pick.enums.RoleEnum;
 import com.pick.model.EmailTO;
 import com.pick.repository.BookingRepository;
 import com.pick.repository.UserRepository;
@@ -32,7 +33,7 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class PublicServiceImpl implements PublicService {
 
-    private Integer NORMAL_ROLE = 1;
+    private Integer NORMAL_ROLE = RoleEnum.NORMAL_ROLE.getCode();
 
     private final PasswordEncoder passwordEncoder;
 
@@ -42,8 +43,6 @@ public class PublicServiceImpl implements PublicService {
 
     @Value("${property.public.path}")
     private String publicPath;
-
-//    private final String publicPath = "C:/git/pick-viewer/dev-viewer/public/";
 
     @Override
     public ResponseData login(LoginReqDto req) {
@@ -58,7 +57,7 @@ public class PublicServiceImpl implements PublicService {
         Integer userCd = req.getUserCd();
         List<Tuple> tuples = userRepository.myFavorites(userCd);
         List<ResponseData> response = new ArrayList<>();
-        for(Tuple tuple : tuples) {
+        for (Tuple tuple : tuples) {
             response.add(new MyFavoritesResDto(tuple));
         }
         return response;
@@ -208,7 +207,7 @@ public class PublicServiceImpl implements PublicService {
                 String fileName = imgIndex + "_" + datetime + ".png";
                 imgPath = "images/" + call + "/" + shopCd + "/tmp/" + fileName;
             } else if (call.equals("menu")) {
-                String fileName = menuCd + "_" +datetime + ".png";
+                String fileName = menuCd + "_" + datetime + ".png";
                 imgPath = "images/" + call + "/" + shopCd + "/tmp/" + fileName;
             }
 
@@ -230,7 +229,7 @@ public class PublicServiceImpl implements PublicService {
                 response.setImgPath(imgPath);
                 response.setResult(true);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             response.setResult(false);
         }
         return response;

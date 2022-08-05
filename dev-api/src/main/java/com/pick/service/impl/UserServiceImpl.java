@@ -7,6 +7,7 @@ import com.pick.dto.request.SubmitEmploymentReqDto;
 import com.pick.dto.request.UserInfoUpdateReqDto;
 import com.pick.dto.response.BooleanResDto;
 import com.pick.dto.response.DashboardRequestListResDto;
+import com.pick.enums.RoleEnum;
 import com.pick.repository.ShopRepository;
 import com.pick.repository.ShopRequestRepository;
 import com.pick.repository.UserRepository;
@@ -22,8 +23,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private Integer STAFF_ROLE = 2;
-    private Integer MANAGER_ROLE = 3;
+    private Integer STAFF_ROLE = RoleEnum.STAFF_ROLE.getCode();
+    private Integer MANAGER_ROLE = RoleEnum.MANAGER_ROLE.getCode();
     private Integer REQUEST_ACCEPT = 1;
     private Integer REQUEST_REFUSE = 2;
 

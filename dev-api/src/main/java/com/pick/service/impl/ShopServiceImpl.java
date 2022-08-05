@@ -3,6 +3,7 @@ package com.pick.service.impl;
 import com.pick.dto.base.ResponseData;
 import com.pick.dto.request.*;
 import com.pick.dto.response.*;
+import com.pick.enums.RoleEnum;
 import com.pick.model.ShopImg;
 import com.pick.model.ShopInfo;
 import com.pick.model.ShopMenu;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ShopServiceImpl implements ShopService {
 
-    private Integer MANAGER_ROLE = 3;
+    private Integer MANAGER_ROLE = RoleEnum.MANAGER_ROLE.getCode();
 
     private final ShopRepository shopRepository;
     private final UserRepository userRepository;
@@ -36,9 +37,6 @@ public class ShopServiceImpl implements ShopService {
 
     @Value("${property.public.path}")
     private String publicPath;
-
-//    private final String publicPath = "C:/git/pick-viewer/dev-viewer/public/";
-//    private final String publicPath = "/home/dev-service/dev-viewer/public";
 
     @Override
     public List<ResponseData> shopList(ShopListReqDto req) {
@@ -129,17 +127,17 @@ public class ShopServiceImpl implements ShopService {
         String[] cdList = staffCdList.split(",");
         List<Tuple> tuples = userRepository.getStaffList(cdList);
         List<ShopStaff> res = new ArrayList<>();
-        for(Tuple tuple : tuples) {
+        for (Tuple tuple : tuples) {
             res.add(new ShopStaff(tuple));
         }
         return res;
     }
 
     protected List<ShopMenu> convertMenuList(Integer shopCd, String menuCdList) {
-        String[]  cdList = menuCdList.split(",");
+        String[] cdList = menuCdList.split(",");
         List<Tuple> tuples = menuRepository.getMenuList(shopCd, cdList);
         List<ShopMenu> res = new ArrayList<>();
-        for(Tuple tuple : tuples) {
+        for (Tuple tuple : tuples) {
             res.add(new ShopMenu(tuple));
         }
         return res;

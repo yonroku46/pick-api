@@ -2,6 +2,10 @@ server:
   address: localhost
   port: 8080
 
+property:
+  public:
+    path: C:/git/pick-viewer/dev-viewer/public/
+
 spring:
   mail:
     host: smtp.gmail.com
