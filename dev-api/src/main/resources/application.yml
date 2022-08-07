@@ -7,20 +7,6 @@ property:
     path: C:/git/pick-viewer/dev-viewer/public/
 
 spring:
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: 'teambepo@gmail.com'
-    password: 'omcxqpkflylisorz'
-    properties:
-      mail:
-        smtp:
-          auth: true
-          ssl:
-            protocols: TLSv1.2
-          starttls:
-            enable: true
-            required: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/public?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
@@ -36,3 +22,17 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate.ddl-auto: validate
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: 'teambepo@gmail.com'
+    password: 'omcxqpkflylisorz'
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            protocols: TLSv1.2
+          starttls:
+            enable: true
+            required: true

@@ -36,7 +36,7 @@ public class TalkRoom {
     @UpdateTimestamp
     private Timestamp updateTime;
 
-    private Integer deleteFlag = 0; // 0 : 삭제안됨 1 : 삭제
+    private Integer deleteFlag = 0;
 
     public void setLatestMessage(String latestMessage) {
         if (latestMessage.strip().length() > 100) {

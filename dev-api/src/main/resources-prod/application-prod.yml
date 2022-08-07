@@ -12,3 +12,12 @@ spring:
     url: jdbc:mysql://localhost:3306/public?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
     username: admin
     password: teamBEP0
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        cache:
+          use_second_level_cache: false
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate.ddl-auto: validate
