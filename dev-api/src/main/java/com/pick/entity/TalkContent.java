@@ -14,31 +14,34 @@ import java.sql.Timestamp;
 @Table(name = "m_talk_content")
 @NoArgsConstructor
 public class TalkContent {
+
     @Id
     @Column(name = "talk_content_cd")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer talkContentCd;
 
+    @Column(name = "talk_room_cd")
     private Integer talkRoomCd;
 
+    @Column(name = "from_user_cd")
     private Integer fromUserCd;
+
+    @Column(name = "to_user_cd")
     private Integer toUserCd;
 
-    @Column(columnDefinition = "VARCHAR(500)")
+    @Column(name = "message", columnDefinition = "TEXT")
     private String message;
 
     @CreationTimestamp
-    @Column(updatable = false)
+    @Column(name = "create_time", updatable = false)
     private Timestamp createTime;
 
-    private Integer deleteFlag = 0;
+    @Column(name = "delete_flag", columnDefinition = "integer default 0")
+    private Integer deleteFlag;
 
-    public void setMessage(String message) {
-        if (message.strip().length() > 500) {
-            this.message = message.strip().substring(0, 500);
-        } else {
-            this.message = message.strip();
-        }
+    @PrePersist
+    public void prePersist(){
+        this.deleteFlag = this.deleteFlag == null ? 0: this.deleteFlag;
     }
 
 }

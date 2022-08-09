@@ -15,34 +15,41 @@ import java.sql.Timestamp;
 @Table(name = "m_talk_room")
 @NoArgsConstructor
 public class TalkRoom {
+
     @Id
     @Column(name = "talk_room_cd")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer talkRoomCd;
 
+    @Column(name = "host_cd")
     private Integer hostCd;
+
+    @Column(name = "host_read_flag")
     private Boolean hostReadFlag = false;
 
+    @Column(name = "guest_cd")
     private Integer guestCd;
+
+    @Column(name = "guest_read_flag")
     private Boolean guestReadFlag = false;
 
-    @Column(columnDefinition = "VARCHAR(100)")
+    @Column(name = "latest_message", columnDefinition = "VARCHAR(100)")
     private String latestMessage;
 
     @CreationTimestamp
-    @Column(updatable = false)
+    @Column(name = "create_time", updatable = false)
     private Timestamp createTime;
 
     @UpdateTimestamp
+    @Column(name = "update_time")
     private Timestamp updateTime;
 
-    private Integer deleteFlag = 0;
+    @Column(name = "delete_flag", columnDefinition = "integer default 0")
+    private Integer deleteFlag;
 
-    public void setLatestMessage(String latestMessage) {
-        if (latestMessage.strip().length() > 100) {
-            this.latestMessage = latestMessage.strip().substring(0, 100);
-        } else {
-            this.latestMessage = latestMessage.strip();
-        }
+    @PrePersist
+    public void prePersist(){
+        this.deleteFlag = this.deleteFlag == null ? 0: this.deleteFlag;
     }
+
 }

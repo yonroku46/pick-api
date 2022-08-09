@@ -2,6 +2,7 @@ package com.pick.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -29,6 +30,7 @@ public class Contact {
     @Column(name = "detail")
     private String detail;
 
+    @CreationTimestamp
     @Column(name = "create_time")
     private Timestamp createTime;
 

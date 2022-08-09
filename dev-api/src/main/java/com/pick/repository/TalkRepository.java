@@ -4,7 +4,10 @@ import com.pick.dto.response.TalkRoomDto;
 import com.pick.entity.TalkContent;
 import com.pick.entity.TalkRoom;
 import com.pick.dto.response.TalkContentDto;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import javax.persistence.Tuple;
 import java.util.List;
 
 public interface TalkRepository {

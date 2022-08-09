@@ -49,16 +49,24 @@ public class Shop {
     @Column(name = "shop_holiday")
     private String shopHoliday;
 
-    @Column(name = "ratings_ave")
+    @Column(name = "ratings_ave", columnDefinition = "integer default 0")
     private Double ratingsAve;
 
-    @Column(name = "location_lat")
+    @Column(name = "location_lat", columnDefinition = "integer default 0")
     private Double locationLat;
 
-    @Column(name = "location_lng")
+    @Column(name = "location_lng", columnDefinition = "integer default 0")
     private Double locationLng;
 
-    @Column(name = "delete_flag")
+    @Column(name = "delete_flag", columnDefinition = "integer default 0")
     private Integer deleteFlag;
+
+    @PrePersist
+    public void prePersist(){
+        this.ratingsAve = this.ratingsAve == null ? 0: this.ratingsAve;
+        this.locationLat = this.locationLat == null ? 0: this.locationLat;
+        this.locationLng = this.locationLng == null ? 0: this.locationLng;
+        this.deleteFlag = this.deleteFlag == null ? 0: this.deleteFlag;
+    }
 
 }

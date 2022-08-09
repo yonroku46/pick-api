@@ -35,6 +35,11 @@ public class ShopReview {
     @Column(name = "ratings")
     private Double ratings;
 
-    @Column(name = "delete_flag")
+    @Column(name = "delete_flag", columnDefinition = "integer default 0")
     private Integer deleteFlag;
+
+    @PrePersist
+    public void prePersist(){
+        this.deleteFlag = this.deleteFlag == null ? 0: this.deleteFlag;
+    }
 }

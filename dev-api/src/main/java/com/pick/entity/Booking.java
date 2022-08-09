@@ -3,6 +3,7 @@ package com.pick.entity;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -40,6 +41,7 @@ public class Booking {
     @Column(name = "booking_stat")
     private Integer bookingStat;
 
+    @CreationTimestamp
     @Column(name = "create_time")
     private Timestamp createTime;
 

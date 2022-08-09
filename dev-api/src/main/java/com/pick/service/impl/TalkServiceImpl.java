@@ -22,6 +22,7 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class TalkServiceImpl implements TalkService {
+
     private final TalkRepository talkRepository;
     private final UserRepository userRepository;
     private final SecurityUserDtoLoader securityUserDtoLoader;
