@@ -1,19 +1,19 @@
 package com.pick.repository.impl;
 
+import com.pick.dto.response.NoticeInfoResDto;
 import com.pick.dto.response.NoticeResDto;
 import com.pick.entity.Notice;
+import com.pick.entity.User;
 import com.pick.repository.NoticeRepository;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.pick.entity.QNotice.notice;
-import static com.pick.entity.QTalkContent.talkContent;
 import static com.pick.entity.QUser.user;
 
 @Repository
@@ -27,52 +27,50 @@ public class NoticeRepositoryImpl implements NoticeRepository {
         this.queryFactory = new JPAQueryFactory(entityManager);
     }
 
-    public Boolean saveNotice(Notice notice) {
+    public Integer saveNotice(Notice notice) {
         entityManager.persist(notice);
-        return true;
+        return notice.getNoticeCd();
     }
 
-    public Boolean getActive(Integer noticeCd) {
-        Integer result =  queryFactory.select(notice.activeFlag)
-                .where(notice.noticeCd.eq(noticeCd),
-                        notice.deleteFlag.eq(0))
-                .fetchOne();
-        return result == 0;
-    }
-
-    public NoticeResDto getNotice(Integer noticeCd) {
+    public Integer getActive(Integer noticeCd) {
         Notice data = queryFactory.selectFrom(notice)
                 .where(notice.noticeCd.eq(noticeCd),
                         notice.deleteFlag.eq(0))
                 .fetchOne();
-        return new NoticeResDto(data.getCategory(), data.getNoticeTitle(), data.getNoticeContent());
+        return data.getActiveFlag();
+    }
+
+    public NoticeInfoResDto getNoticeInfo(Integer noticeCd) {
+        Notice noticeData = queryFactory.selectFrom(notice)
+                .where(notice.noticeCd.eq(noticeCd),
+                        notice.deleteFlag.eq(0))
+                .fetchOne();
+        User userData = queryFactory.selectFrom(user)
+                .where(user.userCd.eq(noticeData.getWriterCd()),
+                        user.deleteFlag.eq(0))
+                .fetchOne();
+        return  new NoticeInfoResDto(noticeData, userData);
     }
 
     public List<NoticeResDto> getNoticeList() {
         List<Notice> notices =  queryFactory.selectFrom(notice)
                 .where(notice.deleteFlag.eq(0),
-                        notice.activeFlag.eq(0))
-                .orderBy(notice.createTime.asc())
+                        notice.activeFlag.eq(1))
+                .orderBy(notice.createTime.desc())
                 .fetch();
-
-        List<NoticeResDto> result = new ArrayList<>();
-        for (Notice notice : notices) {
-            result.add(new NoticeResDto(notice.getCategory(), notice.getNoticeTitle(), notice.getNoticeContent()));
-        }
-        return result;
+        return notices.stream()
+                .map(data -> new NoticeResDto(data))
+                .collect(Collectors.toList());
     }
 
     public List<NoticeResDto> getNoticeListAll() {
         List<Notice> notices =  queryFactory.selectFrom(notice)
                 .where(notice.deleteFlag.eq(0))
-                .orderBy(notice.createTime.asc())
+                .orderBy(notice.createTime.desc())
                 .fetch();
-
-        List<NoticeResDto> result = new ArrayList<>();
-        for (Notice notice : notices) {
-            result.add(new NoticeResDto(notice.getCategory(), notice.getNoticeTitle(), notice.getNoticeContent()));
-        }
-        return result;
+        return notices.stream()
+                .map(data -> new NoticeResDto(data))
+                .collect(Collectors.toList());
     }
 
 }

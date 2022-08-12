@@ -28,8 +28,8 @@ public class NoticeController {
      * 공지사항 내용
      */
     @GetMapping("/info")
-    public SingleResponse getNotice(NoticeInfoReqDto req) {
-        return responseService.getSingleResponse(noticeService.getNotice(req));
+    public SingleResponse getNoticeInfo(NoticeInfoReqDto req) {
+        return responseService.getSingleResponse(noticeService.getNoticeInfo(req));
     }
 
     /**

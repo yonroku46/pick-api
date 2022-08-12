@@ -9,7 +9,7 @@ import java.util.List;
 public interface NoticeService {
 
     ResponseData saveNotice(NoticeSaveReqDto req);
-    ResponseData getNotice(NoticeInfoReqDto req);
+    ResponseData getNoticeInfo(NoticeInfoReqDto req);
     List<NoticeResDto> getNoticeList();
 
 }

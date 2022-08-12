@@ -11,6 +11,7 @@ import javax.persistence.Tuple;
 import java.util.List;
 
 public interface TalkRepository {
+
     Integer saveTalkRoom(TalkRoom talkRoom);
 
     Integer saveTalkContent(TalkContent talkContent);

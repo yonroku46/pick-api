@@ -9,4 +9,5 @@ public class NoticeSaveReqDto {
     private String category;
     private String title;
     private String content;
+    private Integer activeFlag;
 }

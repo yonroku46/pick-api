@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService {
 
-    private Integer MANAGER_ROLE = RoleEnum.MANAGER_ROLE.getCode();
+    private Integer SYSTEM_ADMIN_ROLE = RoleEnum.SYSTEM_ADMIN_ROLE.getCode();
 
     private final NoticeRepository noticeRepository;
     private final SecurityUserDtoLoader securityUserDtoLoader;
@@ -29,38 +29,38 @@ public class NoticeServiceImpl implements NoticeService {
     public ResponseData saveNotice(NoticeSaveReqDto req) {
 
         Integer role = securityUserDtoLoader.getRoleAsInteger();
+        Integer userCd = securityUserDtoLoader.getUserCd();
 
         Notice notice = new Notice();
         notice.setCategory(req.getCategory());
         notice.setNoticeTitle(req.getTitle());
         notice.setNoticeContent(req.getContent());
+        notice.setWriterCd(userCd);
+        notice.setActiveFlag(req.getActiveFlag());
 
-        BooleanResDto response = new BooleanResDto();
-        if (role == MANAGER_ROLE) {
-            noticeRepository.saveNotice(notice);
-            response.setResult(true);
+        if (role == SYSTEM_ADMIN_ROLE) {
+            return new NoticeSaveResDto(noticeRepository.saveNotice(notice));
         } else {
-            response.setResult(false);
+            return new BooleanResDto(false);
         }
-        return response;
     }
 
     @Override
-    public ResponseData getNotice(NoticeInfoReqDto req) {
+    public ResponseData getNoticeInfo(NoticeInfoReqDto req) {
 
         Integer role = securityUserDtoLoader.getRoleAsInteger();
         Integer noticeCd = req.getNoticeCd();
 
-        Boolean active = noticeRepository.getActive(noticeCd);
+        Integer active = noticeRepository.getActive(noticeCd);
 
-        if (active) {
-            return noticeRepository.getNotice(noticeCd);
+        if (active == 1) {
+            return noticeRepository.getNoticeInfo(noticeCd);
         } else {
             // 비공개일시 권한 확인
-            if (role == MANAGER_ROLE) {
-                return noticeRepository.getNotice(noticeCd);
+            if (role == SYSTEM_ADMIN_ROLE) {
+                return noticeRepository.getNoticeInfo(noticeCd);
             } else {
-                return new BooleanResDto(false);
+                throw new IllegalArgumentException("권한 외 접근입니다.");
             }
         }
     }
@@ -71,7 +71,7 @@ public class NoticeServiceImpl implements NoticeService {
         Integer role = securityUserDtoLoader.getRoleAsInteger();
         List<NoticeResDto> response = new ArrayList<>();
 
-        if (role == MANAGER_ROLE) {
+        if (SYSTEM_ADMIN_ROLE.equals(role)) {
             response = noticeRepository.getNoticeListAll();
         } else {
             response = noticeRepository.getNoticeList();
