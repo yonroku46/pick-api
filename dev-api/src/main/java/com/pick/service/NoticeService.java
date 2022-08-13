@@ -9,7 +9,8 @@ import java.util.List;
 public interface NoticeService {
 
     ResponseData saveNotice(NoticeSaveReqDto req);
+    ResponseData deleteNotice(NoticeDeleteReqDto req);
     ResponseData getNoticeInfo(NoticeInfoReqDto req);
-    List<NoticeResDto> getNoticeList();
+    List<NoticeResDto> getNoticeList(NoticeReqDto req);
 
 }

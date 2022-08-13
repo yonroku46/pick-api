@@ -1,4 +1,4 @@
-package com.pick;
+package com.pick.controller;
 
 import com.pick.dto.request.*;
 import com.pick.dto.response.NoticeResDto;
@@ -25,6 +25,14 @@ public class NoticeController {
     }
 
     /**
+     * 공지사항 삭제
+     */
+    @PostMapping("/delete")
+    public SingleResponse deleteNotice(@RequestBody NoticeDeleteReqDto req) {
+        return responseService.getSingleResponse(noticeService.deleteNotice(req));
+    }
+
+    /**
      * 공지사항 내용
      */
     @GetMapping("/info")
@@ -36,8 +44,8 @@ public class NoticeController {
      * 공지사항 목록
      */
     @GetMapping("/list")
-    public ListResponse<NoticeResDto> getNoticeList() {
-        return responseService.getListResponse(noticeService.getNoticeList());
+    public ListResponse<NoticeResDto> getNoticeList(NoticeReqDto req) {
+        return responseService.getListResponse(noticeService.getNoticeList(req));
     }
 
 }

@@ -32,6 +32,13 @@ public class NoticeRepositoryImpl implements NoticeRepository {
         return notice.getNoticeCd();
     }
 
+    public void deleteNotice(Integer noticeCd) {
+        Notice data = queryFactory.selectFrom(notice)
+                .where(notice.noticeCd.eq(noticeCd))
+                .fetchOne();
+        entityManager.remove(data);
+    }
+
     public Integer getActive(Integer noticeCd) {
         Notice data = queryFactory.selectFrom(notice)
                 .where(notice.noticeCd.eq(noticeCd),
@@ -52,9 +59,10 @@ public class NoticeRepositoryImpl implements NoticeRepository {
         return  new NoticeInfoResDto(noticeData, userData);
     }
 
-    public List<NoticeResDto> getNoticeList() {
+    public List<NoticeResDto> getNoticeList(String search) {
         List<Notice> notices =  queryFactory.selectFrom(notice)
-                .where(notice.deleteFlag.eq(0),
+                .where(notice.noticeTitle.like(search),
+                        notice.deleteFlag.eq(0),
                         notice.activeFlag.eq(1))
                 .orderBy(notice.createTime.desc())
                 .fetch();
@@ -63,9 +71,10 @@ public class NoticeRepositoryImpl implements NoticeRepository {
                 .collect(Collectors.toList());
     }
 
-    public List<NoticeResDto> getNoticeListAll() {
+    public List<NoticeResDto> getNoticeListAll(String search) {
         List<Notice> notices =  queryFactory.selectFrom(notice)
-                .where(notice.deleteFlag.eq(0))
+                .where(notice.noticeTitle.like(search),
+                        notice.deleteFlag.eq(0))
                 .orderBy(notice.createTime.desc())
                 .fetch();
         return notices.stream()

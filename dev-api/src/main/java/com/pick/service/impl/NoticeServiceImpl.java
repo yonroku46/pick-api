@@ -46,6 +46,20 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
+    public ResponseData deleteNotice(NoticeDeleteReqDto req) {
+
+        Integer role = securityUserDtoLoader.getRoleAsInteger();
+        Integer noticeCd = req.getNoticeCd();
+
+        if (role == SYSTEM_ADMIN_ROLE) {
+            noticeRepository.deleteNotice(noticeCd);
+            return new BooleanResDto(true);
+        } else {
+            return new BooleanResDto(false);
+        }
+    }
+
+    @Override
     public ResponseData getNoticeInfo(NoticeInfoReqDto req) {
 
         Integer role = securityUserDtoLoader.getRoleAsInteger();
@@ -66,15 +80,16 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public List<NoticeResDto> getNoticeList() {
+    public List<NoticeResDto> getNoticeList(NoticeReqDto req) {
 
         Integer role = securityUserDtoLoader.getRoleAsInteger();
+        String search = "%" + req.getSearch() + "%";
         List<NoticeResDto> response = new ArrayList<>();
 
         if (SYSTEM_ADMIN_ROLE.equals(role)) {
-            response = noticeRepository.getNoticeListAll();
+            response = noticeRepository.getNoticeListAll(search);
         } else {
-            response = noticeRepository.getNoticeList();
+            response = noticeRepository.getNoticeList(search);
         }
         return response;
     }

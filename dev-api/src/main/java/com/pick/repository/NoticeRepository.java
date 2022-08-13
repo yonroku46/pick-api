@@ -10,12 +10,14 @@ public interface NoticeRepository {
 
     Integer saveNotice(Notice notice);
 
+    void deleteNotice(Integer noticeCd);
+
     Integer getActive(Integer noticeCd);
 
     NoticeInfoResDto getNoticeInfo(Integer noticeCd);
 
-    List<NoticeResDto> getNoticeList();
+    List<NoticeResDto> getNoticeList(String search);
 
-    List<NoticeResDto> getNoticeListAll();
+    List<NoticeResDto> getNoticeListAll(String search);
 
 }

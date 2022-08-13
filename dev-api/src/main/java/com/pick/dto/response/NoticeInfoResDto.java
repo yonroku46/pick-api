@@ -22,6 +22,7 @@ public class NoticeInfoResDto extends ResponseData {
     private String noticeContent;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm")
     private Timestamp updateTime;
+    private Integer activeFlag;
     private String userName;
     private String userInfo;
 
@@ -31,6 +32,7 @@ public class NoticeInfoResDto extends ResponseData {
         this.noticeTitle = notice.getNoticeTitle();
         this.noticeContent = notice.getNoticeContent();
         this.updateTime = notice.getUpdateTime();
+        this.activeFlag = notice.getActiveFlag();
         this.userName = user.getUserName();
         this.userInfo = user.getUserInfo();
     }
