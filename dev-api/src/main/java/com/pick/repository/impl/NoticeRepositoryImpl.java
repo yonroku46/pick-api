@@ -32,6 +32,23 @@ public class NoticeRepositoryImpl implements NoticeRepository {
         return notice.getNoticeCd();
     }
 
+    public void editNotice(Notice preNotice) {
+        Notice data = queryFactory.selectFrom(notice)
+                .where(notice.noticeCd.eq(preNotice.getNoticeCd()))
+                .fetchOne();
+        data.setNoticeTitle(preNotice.getNoticeTitle());
+        data.setCategory(preNotice.getCategory());
+        data.setNoticeContent(preNotice.getNoticeContent());
+        data.setActiveFlag(preNotice.getActiveFlag());
+    }
+
+    public void editActiveNotice(Integer noticeCd, Integer activeFlag) {
+        Notice data = queryFactory.selectFrom(notice)
+                .where(notice.noticeCd.eq(noticeCd))
+                .fetchOne();
+        data.setActiveFlag(activeFlag);
+    }
+
     public void deleteNotice(Integer noticeCd) {
         Notice data = queryFactory.selectFrom(notice)
                 .where(notice.noticeCd.eq(noticeCd))

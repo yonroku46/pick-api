@@ -46,6 +46,39 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
+    public ResponseData editNotice(NoticeEditReqDto req) {
+
+        Integer role = securityUserDtoLoader.getRoleAsInteger();
+
+        Notice notice = new Notice();
+        notice.setNoticeCd(req.getNoticeCd());
+        notice.setCategory(req.getCategory());
+        notice.setNoticeTitle(req.getTitle());
+        notice.setNoticeContent(req.getContent());
+        notice.setActiveFlag(req.getActiveFlag());
+
+        if (role == SYSTEM_ADMIN_ROLE) {
+            noticeRepository.editNotice(notice);
+            return new BooleanResDto(true);
+        } else {
+            return new BooleanResDto(false);
+        }
+    }
+
+    @Override
+    public ResponseData editActiveNotice(NoticeActiveEditReqDto req) {
+
+        Integer role = securityUserDtoLoader.getRoleAsInteger();
+
+        if (role == SYSTEM_ADMIN_ROLE) {
+            noticeRepository.editActiveNotice(req.getNoticeCd(), req.getActiveFlag());
+            return new BooleanResDto(true);
+        } else {
+            return new BooleanResDto(false);
+        }
+    }
+
+    @Override
     public ResponseData deleteNotice(NoticeDeleteReqDto req) {
 
         Integer role = securityUserDtoLoader.getRoleAsInteger();

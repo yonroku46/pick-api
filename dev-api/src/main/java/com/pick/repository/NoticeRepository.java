@@ -10,6 +10,10 @@ public interface NoticeRepository {
 
     Integer saveNotice(Notice notice);
 
+    void editNotice(Notice preNotice);
+
+    void editActiveNotice(Integer noticeCd, Integer activeFlag);
+
     void deleteNotice(Integer noticeCd);
 
     Integer getActive(Integer noticeCd);

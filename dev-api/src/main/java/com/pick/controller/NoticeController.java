@@ -25,6 +25,22 @@ public class NoticeController {
     }
 
     /**
+     * 공지사항 내용 수정
+     */
+    @PostMapping("/edit")
+    public SingleResponse editNotice(@RequestBody NoticeEditReqDto req) {
+        return responseService.getSingleResponse(noticeService.editNotice(req));
+    }
+
+    /**
+     * 공지사항 활성/비활성화 수정
+     */
+    @PostMapping("/editActive")
+    public SingleResponse editActiveNotice(@RequestBody NoticeActiveEditReqDto req) {
+        return responseService.getSingleResponse(noticeService.editActiveNotice(req));
+    }
+
+    /**
      * 공지사항 삭제
      */
     @PostMapping("/delete")
