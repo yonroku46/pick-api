@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Tuple;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
@@ -38,6 +39,8 @@ public class ShopInfoResDto extends ResponseData {
     private Double locationLng;
     private BigInteger reviewNum;
     private BigInteger favoriteNum;
+    private Map<String,String> bookingFlags;
+    private Map<String,List<String>> bookingTimes;
 
     public ShopInfoResDto(Tuple tuple) {
         this.shopCd = (Integer) tuple.get(0);
@@ -61,6 +64,8 @@ public class ShopInfoResDto extends ResponseData {
         this.locationLng = (Double) tuple.get(14);
         this.reviewNum = (BigInteger) tuple.get(15);
         this.favoriteNum = (BigInteger) tuple.get(16);
+        this.bookingFlags = null;
+        this.bookingTimes = null;
     }
 
 }

@@ -8,6 +8,7 @@ import com.pick.model.ShopImg;
 import com.pick.model.ShopInfo;
 import com.pick.model.ShopMenu;
 import com.pick.model.ShopStaff;
+import com.pick.repository.BookingRepository;
 import com.pick.repository.MenuRepository;
 import com.pick.repository.ShopRepository;
 import com.pick.repository.UserRepository;
@@ -22,7 +23,9 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +37,7 @@ public class ShopServiceImpl implements ShopService {
     private final ShopRepository shopRepository;
     private final UserRepository userRepository;
     private final MenuRepository menuRepository;
+    private final BookingRepository bookingRepository;
 
     @Value("${property.public.path}")
     private String publicPath;
@@ -60,6 +64,7 @@ public class ShopServiceImpl implements ShopService {
             response.setMenuList(convertMenuList(response.getShopCd(), response.getMenuCdList()));
             response.setMenuCategories(convertMenuCategories(response.getMenuList()));
         }
+        createBookingInfo(response);
         return response;
     }
 
@@ -121,6 +126,20 @@ public class ShopServiceImpl implements ShopService {
             res = "CF";
         }
         return res;
+    }
+
+    protected void createBookingInfo(ShopInfoResDto info) {
+        // key : bookingTime, value : time's list
+        Map<String,List<String>> bookingTimes = new HashMap<>();
+        // key : bookingTime, value : flag
+        Map<String,String> bookingFlags = new HashMap<>();
+
+        // TODO
+        // 지금시간에서 최대 [n일 or n개월]까지의 해당 매장의 예약 시간대 획득
+        // none(초록체크) - 80% OK / active(노랑체크) - 40% OK / nonactive(회색줄표시) - 0%
+
+        info.setBookingTimes(bookingTimes);
+        info.setBookingFlags(bookingFlags);
     }
 
     protected List<ShopStaff> convertStaffList(String staffCdList) {
