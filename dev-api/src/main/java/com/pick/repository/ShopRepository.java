@@ -108,7 +108,7 @@ public interface ShopRepository extends JpaRepository<Shop, Integer> {
             "  staff_list = :staff_list, menu_list = :menu_list" +
             " WHERE shop_cd = :#{#shop.shopCd}"
             , nativeQuery = true)
-    int saveInfo(@Param("shop") ShopInfo shop, @Param("shop_img") String shopImg,  @Param("staff_list") String staffSet,  @Param("menu_list") String menuSet);
+    int saveInfo(@Param("shop") ShopInfo shop, @Param("shop_img") String shopImg, @Param("staff_list") String staffSet,  @Param("menu_list") String menuSet);
 
     @Query(value =
             "SELECT *," +

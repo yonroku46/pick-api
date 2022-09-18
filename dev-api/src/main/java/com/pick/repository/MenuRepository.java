@@ -14,7 +14,7 @@ import java.util.List;
 public interface MenuRepository extends JpaRepository<Menu, Integer> {
 
     @Query(value =
-            "SELECT menu_cd,menu_category,menu_name,menu_description,menu_price,menu_img" +
+            "SELECT menu_cd,menu_category,menu_name,menu_description,menu_price,menu_time,menu_img" +
             " FROM public.m_menu" +
             " WHERE shop_cd = :shop_cd" +
             " AND menu_cd IN :menu_cd_list"
@@ -25,9 +25,9 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
     @Transactional
     @Query(value =
             "INSERT INTO public.m_menu" +
-            "  (shop_cd,menu_category,menu_name,menu_description,menu_price,delete_flag)" +
+            "  (shop_cd,menu_category,menu_name,menu_description,menu_price,menu_time,delete_flag)" +
             " VALUES" +
-            "  (:shop_cd, :#{#menu.menuCategory}, :#{#menu.menuName}, :#{#menu.menuDescription}, :#{#menu.menuPrice}, :pin)"
+            "  (:shop_cd, :#{#menu.menuCategory}, :#{#menu.menuName}, :#{#menu.menuDescription}, :#{#menu.menuPrice}, :#{#menu.menuTime}, :pin)"
             , nativeQuery = true)
     int saveMenuInfo(@Param("shop_cd") Integer shopCd, @Param("menu") ShopMenu menu, @Param("pin") Integer pin);
 
@@ -46,6 +46,7 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
             "  menu_name = :#{#menu.menuName}," +
             "  menu_description = :#{#menu.menuDescription}," +
             "  menu_price = :#{#menu.menuPrice}," +
+            "  menu_time = :#{#menu.menuTime}," +
             "  menu_img = :#{#menu.menuImg}" +
             " WHERE menu_cd = :#{#menu.menuCd}"
             , nativeQuery = true)

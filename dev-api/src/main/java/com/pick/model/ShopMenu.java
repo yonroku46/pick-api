@@ -15,6 +15,7 @@ public class ShopMenu {
     private String menuName;
     private String menuDescription;
     private Integer menuPrice;
+    private String menuTime;
     private String menuImg;
     private Boolean newFlag;
 
@@ -24,6 +25,7 @@ public class ShopMenu {
         this.menuName = (String) tuple.get(2);
         this.menuDescription = (String) tuple.get(3);
         this.menuPrice = (Integer) tuple.get(4);
-        this.menuImg = (String) tuple.get(5);
+        this.menuTime = (String) tuple.get(5);
+        this.menuImg = (String) tuple.get(6);
     }
 }

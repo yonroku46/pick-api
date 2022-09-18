@@ -31,6 +31,9 @@ public class Menu {
     @Column(name = "menu_price")
     private Integer menuPrice;
 
+    @Column(name = "menu_time")
+    private String menuTime;
+
     @Column(name = "menu_img")
     private String menuImg;
 

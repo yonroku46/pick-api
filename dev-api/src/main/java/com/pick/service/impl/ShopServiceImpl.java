@@ -42,6 +42,8 @@ public class ShopServiceImpl implements ShopService {
     @Value("${property.public.path}")
     private String publicPath;
 
+    private final String TIME_NONE = "";
+
     @Override
     public List<ResponseData> shopList(ShopListReqDto req) {
         String category = req.getCategory();
@@ -242,6 +244,10 @@ public class ShopServiceImpl implements ShopService {
                                 Files.copy(file.toPath(), copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                                 menu.setMenuImg(copyImgPath);
                             }
+                            if (TIME_NONE.equals(menu.getMenuTime())) {
+                                menu.setMenuTime(null);
+                            }
+
                             menuRepository.updateMenuInfo(menu);
                         }
                     }
