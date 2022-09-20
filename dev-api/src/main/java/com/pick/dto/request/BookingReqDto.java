@@ -12,6 +12,7 @@ public class BookingReqDto {
     private Integer userCd;
     private Integer shopCd;
     private Timestamp bookingTime;
+    private Timestamp bookingEndTime;
     private Integer bookingPrice;
     private String category;
     private BookingDetail bookingDetail;

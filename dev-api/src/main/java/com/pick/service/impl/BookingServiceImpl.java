@@ -52,6 +52,7 @@ public class BookingServiceImpl implements BookingService {
         Integer userCd = req.getUserCd();
         Integer shopCd = req.getShopCd();
         Timestamp bookingTime = req.getBookingTime();
+        Timestamp bookingEndTime = req.getBookingEndTime();
         Integer bookingPrice = req.getBookingPrice();
         String category = req.getCategory();
 
@@ -65,17 +66,17 @@ public class BookingServiceImpl implements BookingService {
         BooleanResDto response = new BooleanResDto();
 
         if (category.equals(HAIRSHOP)) {
-            bookingRepository.bookingHairshop(userCd, shopCd, designer, category, bookingTime, bookingPrice,
+            bookingRepository.bookingHairshop(userCd, shopCd, designer, category, bookingTime, bookingEndTime, bookingPrice,
                     designer, style, discount);
             response.setResult(true);
         } else if (category.equals(RESTAURANT)) {
             Integer managerCd = shopRepository.getShopManager(shopCd);
-            bookingRepository.bookingRestaurant(userCd, shopCd, managerCd, category,bookingTime, bookingPrice,
+            bookingRepository.bookingRestaurant(userCd, shopCd, managerCd, category,bookingTime, bookingEndTime, bookingPrice,
                     customers, orders, discount);
             response.setResult(true);
         } else if (category.equals(CAFE)) {
             Integer managerCd = shopRepository.getShopManager(shopCd);
-            bookingRepository.bookingCafe(userCd, shopCd, managerCd, category, bookingTime, bookingPrice,
+            bookingRepository.bookingCafe(userCd, shopCd, managerCd, category, bookingTime, bookingEndTime, bookingPrice,
                     customers, orders, discount);
             response.setResult(true);
         } else {

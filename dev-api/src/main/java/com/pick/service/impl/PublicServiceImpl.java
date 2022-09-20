@@ -67,8 +67,9 @@ public class PublicServiceImpl implements PublicService {
     public ResponseData bookingCheck(BookingCheckReqDto req) {
         Integer userCd = req.getUserCd();
         Timestamp bookingTime = req.getBookingTime();
+        Timestamp bookingEndTime = req.getBookingEndTime();
         BooleanResDto response = new BooleanResDto();
-        int count = bookingRepository.bookingCheck(userCd, bookingTime);
+        int count = bookingRepository.bookingCheck(userCd, bookingTime, bookingEndTime);
         if (count == 0) {
             response.setResult(true);
         } else {

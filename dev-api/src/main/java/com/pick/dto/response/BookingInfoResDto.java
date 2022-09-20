@@ -22,6 +22,8 @@ public class BookingInfoResDto extends ResponseData {
     private String bookingCategory;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp bookingTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp bookingEndTime;
     private String bookingDetail;
     private Integer bookingPrice;
     private Integer bookingStat;
@@ -40,14 +42,15 @@ public class BookingInfoResDto extends ResponseData {
         this.managerCd = (Integer) tuple.get(3);
         this.bookingCategory = (String) tuple.get(4);
         this.bookingTime = (Timestamp) tuple.get(5);
-        this.bookingDetail = (String) tuple.get(6);
-        this.bookingPrice = (Integer) tuple.get(7);
-        this.bookingStat = (Integer) tuple.get(8);
-        this.style = (String) tuple.get(9);
-        this.designer = (String) tuple.get(10);
-        this.discount = (String) tuple.get(11);
-        this.customers = (String) tuple.get(12);
-        this.orders = (String) tuple.get(13);
-        this.createTime = (Timestamp) tuple.get(14);
+        this.bookingEndTime = (Timestamp) tuple.get(6);
+        this.bookingDetail = (String) tuple.get(7);
+        this.bookingPrice = (Integer) tuple.get(8);
+        this.bookingStat = (Integer) tuple.get(9);
+        this.style = (String) tuple.get(10);
+        this.designer = (String) tuple.get(11);
+        this.discount = (String) tuple.get(12);
+        this.customers = (String) tuple.get(13);
+        this.orders = (String) tuple.get(14);
+        this.createTime = (Timestamp) tuple.get(15);
     }
 }

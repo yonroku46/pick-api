@@ -31,6 +31,9 @@ public class Booking {
     @Column(name = "booking_time")
     private Timestamp bookingTime;
 
+    @Column(name = "booking_end_time")
+    private Timestamp bookingEndTime;
+
     @Column(name = "booking_detail", columnDefinition = "json")
     @JsonRawValue
     private String bookingDetail;

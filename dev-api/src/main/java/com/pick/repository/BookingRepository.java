@@ -15,7 +15,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     @Query(value =
             "SELECT" +
-            "  booking_cd,booking_category,booking_time,booking_price," +
+            "  booking_cd,booking_category,booking_time,booking_end_time,booking_price," +
             "  JSON_UNQUOTE(JSON_EXTRACT(booking_detail,'$.style')) as style," +
             "  JSON_UNQUOTE(JSON_EXTRACT(booking_detail,'$.designer')) as designer," +
             "  JSON_UNQUOTE(JSON_EXTRACT(booking_detail,'$.discount')) as discount," +
@@ -35,51 +35,52 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "SELECT COUNT(*) AS count" +
             " FROM public.m_booking" +
             " WHERE user_cd = :user_cd" +
-            " AND booking_time = :booking_time"
+            " AND booking_time BETWEEN :booking_time AND :booking_end_time" +
+            " OR booking_end_time BETWEEN :booking_time AND :booking_end_time"
             , nativeQuery = true)
-    int bookingCheck(@Param("user_cd") Integer userCd, @Param("booking_time") Timestamp bookingTime);
+    int bookingCheck(@Param("user_cd") Integer userCd, @Param("booking_time") Timestamp bookingTime, @Param("booking_end_time") Timestamp bookingEndTime);
 
     @Modifying
     @Transactional
     @Query(value =
             "INSERT INTO public.m_booking" +
-            "  (user_cd,shop_cd,manager_cd,booking_category,booking_time,booking_price," +
+            "  (user_cd,shop_cd,manager_cd,booking_category,booking_time,booking_end_time,booking_price," +
             "   booking_detail,create_time)" +
             " VALUES" +
-            "  (:user_cd,:shop_cd,:manager_cd,:booking_category,:booking_time,:booking_price," +
+            "  (:user_cd,:shop_cd,:manager_cd,:booking_category,:booking_time,:booking_end_time,:booking_price," +
             "  JSON_OBJECT('designer',:designer,'style',:style,'discount',:discount),now())"
             , nativeQuery = true)
-    int bookingHairshop(@Param("user_cd") Integer userCd, @Param("shop_cd") Integer shopCd, @Param("manager_cd") Integer managerCd, @Param("booking_category") String bookingCategory, @Param("booking_time") Timestamp bookingTime, @Param("booking_price") Integer bookingPrice,
+    int bookingHairshop(@Param("user_cd") Integer userCd, @Param("shop_cd") Integer shopCd, @Param("manager_cd") Integer managerCd, @Param("booking_category") String bookingCategory, @Param("booking_time") Timestamp bookingTime, @Param("booking_end_time") Timestamp bookingEndTime, @Param("booking_price") Integer bookingPrice,
                         @Param("designer") Integer designer, @Param("style") Integer style, @Param("discount") Integer discount);
     @Modifying
     @Transactional
     @Query(value =
             "INSERT INTO public.m_booking" +
-            "  (user_cd,shop_cd,manager_cd,booking_category,booking_time,booking_price," +
+            "  (user_cd,shop_cd,manager_cd,booking_category,booking_time,booking_end_time,booking_price," +
             "  booking_detail,create_time)" +
             " VALUES" +
-            "  (:user_cd,:shop_cd,:manager_cd,:booking_category,:booking_time,:booking_price," +
+            "  (:user_cd,:shop_cd,:manager_cd,:booking_category,:booking_time,:booking_end_time,:booking_price," +
             "  JSON_OBJECT('customers',:customers,'orders',:orders,'discount',:discount),now())"
             , nativeQuery = true)
-    int bookingRestaurant(@Param("user_cd") Integer userCd, @Param("shop_cd") Integer shopCd, @Param("manager_cd") Integer managerCd, @Param("booking_category") String bookingCategory, @Param("booking_time") Timestamp bookingTime, @Param("booking_price") Integer bookingPrice,
+    int bookingRestaurant(@Param("user_cd") Integer userCd, @Param("shop_cd") Integer shopCd, @Param("manager_cd") Integer managerCd, @Param("booking_category") String bookingCategory, @Param("booking_time") Timestamp bookingTime, @Param("booking_end_time") Timestamp bookingEndTime, @Param("booking_price") Integer bookingPrice,
                         @Param("customers") Integer customers, @Param("orders") String orders, @Param("discount") Integer discount);
 
     @Modifying
     @Transactional
     @Query(value =
             "INSERT INTO public.m_booking" +
-            "  (user_cd,shop_cd,manager_cd,booking_category,booking_time,booking_price," +
+            "  (user_cd,shop_cd,manager_cd,booking_category,booking_time,booking_end_time,booking_price," +
             "  booking_detail,create_time)" +
             " VALUES" +
-            "  (:user_cd,:shop_cd,:manager_cd,:booking_category,:booking_time,:booking_price," +
+            "  (:user_cd,:shop_cd,:manager_cd,:booking_category,:booking_time,:booking_end_time,:booking_price," +
             "  JSON_OBJECT('customers',:customers,'orders',:orders,'discount',:discount),now())"
             , nativeQuery = true)
-    int bookingCafe(@Param("user_cd") Integer userCd, @Param("shop_cd") Integer shopCd, @Param("manager_cd") Integer managerCd, @Param("booking_category") String bookingCategory, @Param("booking_time") Timestamp bookingTime, @Param("booking_price") Integer bookingPrice,
+    int bookingCafe(@Param("user_cd") Integer userCd, @Param("shop_cd") Integer shopCd, @Param("manager_cd") Integer managerCd, @Param("booking_category") String bookingCategory, @Param("booking_time") Timestamp bookingTime, @Param("booking_end_time") Timestamp bookingEndTime, @Param("booking_price") Integer bookingPrice,
                           @Param("customers") Integer customers, @Param("orders") String orders, @Param("discount") Integer discount);
 
     @Query(value =
             "SELECT" +
-            "  booking_cd,booking_category,booking_time,booking_price," +
+            "  booking_cd,booking_category,booking_time,booking_end_time,booking_price," +
             "  JSON_UNQUOTE(JSON_EXTRACT(booking_detail,'$.style')) as style," +
             "  JSON_UNQUOTE(JSON_EXTRACT(booking_detail,'$.designer')) as designer," +
             "  JSON_UNQUOTE(JSON_EXTRACT(booking_detail,'$.discount')) as discount," +
@@ -97,7 +98,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     @Query(value =
             "SELECT" +
-            "  booking_cd,user_cd,shop_cd,manager_cd,booking_category,booking_time,booking_detail,booking_price,booking_stat," +
+            "  booking_cd,user_cd,shop_cd,manager_cd,booking_category,booking_time,booking_end_time,booking_detail,booking_price,booking_stat," +
             "  JSON_UNQUOTE(JSON_EXTRACT(booking_detail,'$.style')) as style," +
             "  JSON_UNQUOTE(JSON_EXTRACT(booking_detail,'$.designer')) as designer," +
             "  JSON_UNQUOTE(JSON_EXTRACT(booking_detail,'$.discount')) as discount," +

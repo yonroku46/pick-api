@@ -10,4 +10,5 @@ import java.sql.Timestamp;
 public class BookingCheckReqDto {
     private Integer userCd;
     private Timestamp bookingTime;
+    private Timestamp bookingEndTime;
 }
