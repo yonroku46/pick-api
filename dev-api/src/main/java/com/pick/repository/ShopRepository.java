@@ -35,7 +35,7 @@ public interface ShopRepository extends JpaRepository<Shop, Integer> {
 
     @Query(value =
             "SELECT" +
-            "  shop_cd,shop_name,shop_location,shop_info,shop_tel,shop_img,shop_open,shop_close,shop_holiday,staff_list,menu_list,ratings_ave,shop_serial,location_lat,location_lng," +
+            "  shop_cd,shop_name,shop_location,shop_info,shop_tel,shop_img,shop_open,shop_close,shop_break_start,shop_break_end,shop_holiday,staff_list,menu_list,ratings_ave,shop_serial,location_lat,location_lng," +
             "  (SELECT COUNT(*) FROM m_shop_review WHERE shop_cd = :shop_cd AND delete_flag = 0 AND review_reply IS NULL) AS review_num," +
             "  (SELECT COUNT(*) FROM m_favorite WHERE shop_cd = :shop_cd) AS favorite_num" +
             " FROM" +
@@ -63,7 +63,7 @@ public interface ShopRepository extends JpaRepository<Shop, Integer> {
 
     @Query(value =
             "SELECT" +
-            "  shop_cd,shop_name,shop_location,shop_info,shop_tel,shop_img,shop_open,shop_close,shop_holiday,staff_list,menu_list,shop_serial,location_lat,location_lng" +
+            "  shop_cd,shop_name,shop_location,shop_info,shop_tel,shop_img,shop_open,shop_close,shop_break_start,shop_break_end,shop_holiday,staff_list,menu_list,shop_serial,location_lat,location_lng" +
             " FROM" +
             "  public.m_shop" +
             " WHERE" +
@@ -104,6 +104,7 @@ public interface ShopRepository extends JpaRepository<Shop, Integer> {
             " SET" +
             "  shop_location = :#{#shop.shopLocation}, shop_info = :#{#shop.shopInfo}, shop_tel = :#{#shop.shopTel}," +
             "  shop_img = :shop_img, shop_open = :#{#shop.shopOpen}, shop_close = :#{#shop.shopClose}," +
+            "  shop_break_start = :#{#shop.shopBreakStart}, shop_break_end = :#{#shop.shopBreakEnd}," +
             "  shop_holiday = :#{#shop.shopHoliday}, location_lat = :#{#shop.locationLat}, location_lng = :#{#shop.locationLng}," +
             "  staff_list = :staff_list, menu_list = :menu_list" +
             " WHERE shop_cd = :#{#shop.shopCd}"

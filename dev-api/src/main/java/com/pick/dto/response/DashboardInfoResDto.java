@@ -25,7 +25,10 @@ public class DashboardInfoResDto extends ResponseData {
     private String shopImg;
     private String shopOpen;
     private String shopClose;
+    private String shopBreakStart;
+    private String shopBreakEnd;
     private String shopHoliday;
+    private List<String> shopHolidayList;
     private String staffCdList;
     private List<ShopStaff> staffList;
     private String menuCdList;
@@ -46,16 +49,19 @@ public class DashboardInfoResDto extends ResponseData {
         this.shopImg = (String) tuple.get(5);
         this.shopOpen = (String) tuple.get(6);
         this.shopClose = (String) tuple.get(7);
-        this.shopHoliday = (String) tuple.get(8);
-        this.staffCdList = (String) tuple.get(9);
+        this.shopBreakStart = (String) tuple.get(8);
+        this.shopBreakEnd  = (String) tuple.get(9);
+        this.shopHoliday = (String) tuple.get(10);
+        this.shopHolidayList = null;
+        this.staffCdList = (String) tuple.get(11);
         this.staffList = null;
-        this.menuCdList = (String) tuple.get(10);
+        this.menuCdList = (String) tuple.get(12);
         this.menuList = null;
         this.menuCategories = null;
-        this.shopSerial = (String) tuple.get(11);
+        this.shopSerial = (String) tuple.get(13);
         this.category = convertSerial(this.shopSerial);
-        this.locationLat = (Double) tuple.get(12);
-        this.locationLng = (Double) tuple.get(13);
+        this.locationLat = (Double) tuple.get(14);
+        this.locationLng = (Double) tuple.get(15);
     }
 
 }

@@ -14,7 +14,10 @@ public class ShopInfo {
     private Integer shopCd;
     private String shopOpen;
     private String shopClose;
+    private String shopBreakStart;
+    private String shopBreakEnd;
     private String shopHoliday;
+    private List<String> shopHolidayList;
     private List<ShopImg> shopImg;
     private String shopInfo;
     private String shopLocation;

@@ -46,6 +46,12 @@ public class Shop {
     @Column(name = "shop_close")
     private String shopClose;
 
+    @Column(name = "shop_break_start")
+    private String shopBreakStart;
+
+    @Column(name = "shop_break_end")
+    private String shopBreakEnd;
+
     @Column(name = "shop_holiday")
     private String shopHoliday;
 

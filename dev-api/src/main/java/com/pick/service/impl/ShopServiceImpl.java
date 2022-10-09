@@ -59,6 +59,7 @@ public class ShopServiceImpl implements ShopService {
     public ResponseData shopInfo(ShopInfoReqDto req) {
         Integer shopCd = req.getShopCd();
         ShopInfoResDto response = new ShopInfoResDto(shopRepository.shopInfo(shopCd));
+        response.setShopHolidayList(List.of(response.getShopHoliday().split(",")));
         if (response.getStaffCdList() != null) {
             response.setStaffList(convertStaffList(response.getStaffCdList()));
         }
@@ -92,6 +93,7 @@ public class ShopServiceImpl implements ShopService {
         Integer role = req.getRole();
         if (role == MANAGER_ROLE) {
             DashboardInfoResDto response = new DashboardInfoResDto(shopRepository.dashboardInfo(shopCd));
+            response.setShopHolidayList(List.of(response.getShopHoliday().split(",")));
             if (response.getStaffCdList() != null) {
                 response.setStaffList(convertStaffList(response.getStaffCdList()));
             }
